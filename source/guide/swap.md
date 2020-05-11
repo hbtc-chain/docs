@@ -17,7 +17,7 @@ $ hbtccli keys add alice --home node/hbtccli
 {
   "name": "alice",
   "address": "HBCPNuLKXuQSVgGe4kfF3JxJZb1Uytkajb3Q",
-  "pubkey": "hbtpub1addwnpepqdp4ac6l2f7tjtwssvdra7fy2xfrl8th4ltcx4dgy60z2a7ffx5lcu2ja8v",
+  "pubkey": "hbcpub1addwnpepqdp4ac6l2f7tjtwssvdra7fy2xfrl8th4ltcx4dgy60z2a7ffx5lcu2ja8v",
 }
 ```
 这样，alice就为自己离线创建了一个账户，同样,bob也按照相同的操作创建一个账户如下：
@@ -25,7 +25,7 @@ $ hbtccli keys add alice --home node/hbtccli
 {
   "name": "bob",
   "address": "HBCcUCWJNattE5PYm6xQKbaCoRCG2SaVdHvH",
-  "pubkey": "hbtpub1addwnpepqddz9uqphxcphs50j9ewqeccymkl66n2nqkes3h4w8xrna39qxm0jwk688c",
+  "pubkey": "hbcpub1addwnpepqddz9uqphxcphs50j9ewqeccymkl66n2nqkes3h4w8xrna39qxm0jwk688c",
 }
 ```
 **完成这个操作后需要向HBTC Chain申请一定的hbc用来测试，具体申请方式请参考FAQ。**
