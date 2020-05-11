@@ -55,7 +55,7 @@ $ hbtccli keys add alice --home node/hbtccli
 {
   "name": "alice",
   "address": "HBCPNuLKXuQSVgGe4kfF3JxJZb1Uytkajb3Q",
-  "pubkey": "hbtpub1addwnpepqdp4ac6l2f7tjtwssvdra7fy2xfrl8th4ltcx4dgy60z2a7ffx5lcu2ja8v",
+  "pubkey": "hbcpub1addwnpepqdp4ac6l2f7tjtwssvdra7fy2xfrl8th4ltcx4dgy60z2a7ffx5lcu2ja8v",
 }
 ```
 
