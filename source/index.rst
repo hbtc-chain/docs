@@ -28,13 +28,13 @@ HBTC Chain文档
    guide/mapping
    guide/hrc20
 
-.. _moudle-docs:
+.. _module-docs:
 
  .. toctree::
    :maxdepth: 3
    :caption: 模块说明
 
-   moudle/moudle
+   module/module
 
 .. _references-docs:
 
