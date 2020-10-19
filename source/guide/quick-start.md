@@ -1,8 +1,8 @@
 # 快速启动
 
-由于测试网在快速迭代开发中，我们现在提供预编译好的可执行文件，请通过[官方渠道](https://github.com/hbtc-chain/testnet)下载，目前测试网使用的软件版本为 v0.1.3。
+由于测试网在快速迭代开发中，我们现在提供预编译好的可执行文件，请通过[官方渠道](https://github.com/hbtc-chain/testnet)下载，目前测试网使用的软件版本为 v0.9.0。
 
-**测试网的跨链资产目前支持BTC/ETH主网，以及ERC20 USDT等代币，充入其他资产将无法找回，请谨慎操作。**
+**测试网的跨链资产目前支持BTC/ETH/TRX主网，以及ERC20 USDT, LINK, HT 和 TRC20 USDT 代币，充入其他资产将无法找回，请谨慎操作。**
 
 ## 加入霍比特链测试网
 克隆[testnet 项目](https://github.com/hbtc-chain/testnet)到本地:
@@ -26,15 +26,6 @@ moniker = "<your_custom_moniker>"
 ```
 ./hbtcd start --home ./
 ```
-
-#### 使用 docker 启动
-进入 testnet 项目，执行命令
-
-```
-docker-compose -f docker-compose.yml up -d
-```
-
-成功后会在本地启动 hbtcd 容器并连接到测试网络。
 
 ## 与霍比特链进行交互
 
@@ -121,3 +112,10 @@ $ hbtccli tx send alice  BHccpSzNbAPue6QBTfN8259t12CfxC9NY2K  100000000000000000
 $ hbtccli tx transfer withdrawal alice 0xC933C741416151dAcFE9428d39222f747e2b45EB 200000000000000000eth 21000000000000000 --chain-id hbtc-testnet --home node/hbtccli
 ```
 通过该命令，托管用户alice把自己账户中的0.2eth提现到自己的eth账户(0xC933C741416151dAcFE9428d39222f747e2b45EB 非托管地址）上，通过一定区块高度后，用户可以在自己的账户看到提现到账信息。
+
+### 6. 取消提现
+```bash
+$ hbtccli tx transfer cancelwithdrawal alice abe0f640-9fbe-4456-9873-fd402b90b044 --chain-id hbtc-testnet --home node/hbtccli
+```
+通过该命令，托管用户alice可以取消掉刚才发出的提现命令（用户的提现操作未到分布式签名阶段），取消提现后，提现需要的资金和手续费都会返回到用户账户中。
+

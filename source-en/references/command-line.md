@@ -1,13 +1,13 @@
-# 命令行参考
+# Command-line Reference
 
 ## status
-查询链的状态
+Check the status of the chains
 
-##### 示例
+##### Example
 ```bash
 hbtccli  status
 ```
-##### 成功返回
+##### Success Response
 ```json
 {
   "node_info": {
@@ -46,13 +46,13 @@ hbtccli  status
 
 ```
 ## config
-### 显示client 的配置
+### Display client configuration
 
-##### 示例
+##### Example
 ```bash
 hbtccli config
 ```
-##### 成功返回
+##### Success Response
 ```bash
 chain-id = "hbtc-testnet"
 indent = true
@@ -60,13 +60,15 @@ output = "json"
 trust-node = true
 ```
 
-### 配置client
-将常用的配置信息存放在.hbtcli/config/config.toml中
+### Config Client
+
+Store common configuration information into hbtcli/config/config.toml
+
 ```bash
 hbtccli config <key> [value] [flags]
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli config indent  false
 hbtccli config chain-id  hbtc-testnet
@@ -78,16 +80,16 @@ hbtccli config trust-node  true
 
 ### tendermint-validator-set
 
-查询当前validators
+Query current validators
 ```bash
 hbtccli query tendermint-validator-set
 ```
 
-#### 示例
+#### Example
 ```bash
 hbtccli query tendermint-validator-set
 ```
-#### 成功返回
+#### Success Response
 ```json
 {
   "block_height": "65",
@@ -105,12 +107,14 @@ hbtccli query tendermint-validator-set
 
 
 ### block
-查询指定高度的区块内容
-#### 示例
+Query the content of the block with specified height
+
+#### Example
+
 ```bash
 hbtccli query  block 50
 ```
-#### 成功返回
+#### Success response
 ```json
 {
   "block_meta": {
@@ -152,23 +156,32 @@ hbtccli query  block 50
 }
 ```
 
+### txs
+#### Example
+```
 
+```
+
+#### Success response
+```
+
+```
 
 ### tx
 
-根据hash查找交易 
+Query a transaction by hash 
 
 ``` bash
 hbtccli query tx [hash]
 ```
 
 
-#### 示例
+#### Example
 ```bash
 hbtccli query tx E81EC801B96C99E99BA2EAA73624AF5FAA7A0356894846BB11C70D57B62937AD --trust-node
 ```
 
-#### 成功返回
+#### Success response
 ```json
 {
   "height": "130",
@@ -186,16 +199,16 @@ hbtccli query tx E81EC801B96C99E99BA2EAA73624AF5FAA7A0356894846BB11C70D57B62937A
 ```
 
 ### mint
-#### 查询mint的参数
+#### Query the parameters of mint
 ```bash
 hbtccli query mint params
 ```
-##### 示例 
+##### Example
 ```bash
 hbtccli query mint params
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "mint_denom": "hbc",
@@ -206,16 +219,16 @@ hbtccli query mint params
 
 
 ### token
-#### 查询所有支持币种名称
+#### Query all supported token symbols
 ```bash
 hbtccli query token symbols
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli query token symbols
 ```
-##### 成功返回
+##### Success response
 
 ```json
 [
@@ -225,16 +238,16 @@ hbtccli query token symbols
   "tusdt"
 ]
 ```
-#### 查询所有支持币种信息
+#### Query all supported tokens
 ```bash
 hbtccli query token tokens
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli query token tokens
 ```
-##### 成功返回
+##### Success response
 
 ```json
 [
@@ -305,16 +318,16 @@ hbtccli query token tokens
 ]
 ```
 
-#### 查询某一个币种信息
+#### Query a specific token
 ```bash
 hbtccli query token token [symbol] 
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli query token token tusdt 
 ```
-##### 成功返回
+##### Example
 
 ```json
 {
@@ -340,16 +353,16 @@ hbtccli query token token tusdt
 }                                                      
 ```
 
-#### 查询某一个币种的精度信息
+#### Query the precision of a particular token
 ```bash
 hbtccli query token decimal [symbol] 
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli query token decimal tusdt 
 ```
-##### 成功返回
+##### uccess response
 
 ```json
 {
@@ -358,16 +371,16 @@ hbtccli query token decimal tusdt
 ```
 
 
-#### 查询模块的参数
+#### Query the parameters of a module 
 ```bash
 hbtccli query token params 
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli query token params
 ```
-##### 成功返回
+##### Success response
 
 ```json
 {
@@ -403,11 +416,13 @@ hbtccli query token params
 ```
 
 ### order
-有些发送到链上的交易会产生order，比如keygen(创建资产地址)、deposit（充币）,withdrawal(提币)等交易。可以根据交易返回的orderid，查询order详情。
+
+Some transactions sent on chain will generate orders, for example keygen(create asset address), deposit,withdrawal etc. Order details can be queried based on the order ID returned by the transaction.
+
 ```bash
 hbtccli query order order 3b16978a-a435-4b64-acc3-7e15b571319b 
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "type": "hbtcchain/order/OrderKeyGen",
@@ -440,17 +455,17 @@ hbtccli query order order 3b16978a-a435-4b64-acc3-7e15b571319b
 
 ### Supply
 
-#### 查询token发行数量
+#### Query the supply of the tokens issued
 ```bash
 hbtccli query supply total
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli query supply total
 ```
 
-##### 成功返回
+##### Success response
 ```json
 [
   {
@@ -460,37 +475,17 @@ hbtccli query supply total
 ]
 ```
 
-#### 查询token销毁数量
-```bash
-hbtccli query supply burned
-```
-
-##### 示例
-```bash
-hbtccli query supply burned
-```
-
-##### 成功返回
-```json
-[
-  {
-    "denom": "hdt",
-    "amount": "1000000000000"
-  }
-]
-```
-
 
 ### gov 
-#### 查询gov模块所有参数
+#### Query all parameters of the gov module
 ```bash
 hbtccli query gov params
 ```
-##### 示例
+##### Example
 ```bash
 hbtccli query gov params
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "voting_params": {
@@ -520,16 +515,16 @@ hbtccli query gov params
 ```
 
 
-#### 查询gov模块的抵押，投票等参数
+#### Query the parameters of the gov module for pledge and vote, etc
 ```bash
 hbtccli query gov param [voting/tallying/deposit]
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli  query gov param deposit
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "min_init_deposit": [
@@ -548,23 +543,23 @@ hbtccli  query gov param deposit
 }
 ```
 
-#### 查询一个提案
-根据proposal id精确的查询某个提案的内容
+#### Query a specified proposal
+Query the exact content of a proposal based on its proposal ID
 ```bash
 hbtccli query gov proposal [proposal-id] [flags]
 ```
-##### 参数说明
+##### Description of parameters
 
-| 名称   | 类型   | 参数说明|
-| ------ | ------ | ------ |
-|proposal-id | string | proposal id|
+| Name        | Type   | Description |
+| ----------- | ------ | ----------- |
+| proposal-id | string | proposal id |
 
+##### Example
 
-##### 示例
 ```bash
 hbtccli query gov proposal 1
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "content": {
@@ -595,45 +590,48 @@ hbtccli query gov proposal 1
 }
 ```
 
-#### 查询一类提案
+#### Query a kind of proposals
+
 ```bash
 hbtccli query gov proposals  [flags]
 ```
-##### 常用查询选项
 
-| 名称  | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| --depositor| string | 查询depositor抵押了资产的提案 |
-| --voter | string | voter 投过票的提案|
-| --status | string | 提案目前的状态|
+##### Common query options
 
+| Name        | Type   | Description                                   |
+| ----------- | ------ | --------------------------------------------- |
+| --depositor | string | Query proposal on depositor's assets pledging |
+| --voter     | string | Proposals voted                               |
+| --status    | string | Current status of proposals                   |
 
+##### Example
 
-##### 示例
 ```bash
 hbtccli query gov proposals --depositor $(hbtccli keys show -a alice)
 hbtccli query gov proposals --voter $(hbtccli keys show -a alice)
 hbtccli query gov proposals --status (DepositPeriod|VotingPeriod|Passed|Rejected)
 ```
 
-#### 查询某voter对某提案的抵押信息
+#### Query the pledge information of a voter by proposal id
+
 ```bash
 hbtccli query gov deposit [proposal-id] [depositor-addr] [flags]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| proposal-id | string | proposal id |
-| depositor-addr | string | depositor地址|
+| Name           | Type   | Description              |
+| -------------- | ------ | ------------------------ |
+| proposal-id    | string | proposal id              |
+| depositor-addr | string | The address of depositor |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query gov deposit 1 $(hbtccli keys show -a alice)
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "proposal_id": "1",
@@ -647,24 +645,25 @@ hbtccli query gov deposit 1 $(hbtccli keys show -a alice)
 }
 ```
 
-#### 查询某提案的全部抵押信息
+#### Query all pledge information for a proposal
+
 ```bash
-hbtccli query gov deposits [proposal-id][flags] 
+hbtccli query gov deposits [proposal-id][flags]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 |参数说明 |
-| ------ | ------ | ------ |
+| Name        | Type   | Description |
+| ----------- | ------ | ----------- |
 | proposal-id | string | proposal id |
 
+##### Example
 
-##### 示例
 ```bash
 hbtccli query gov deposits 1 
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "proposal_id": "1",
@@ -679,22 +678,23 @@ hbtccli query gov deposits 1
 ```
 
 
-#### 查询某voter对某提案的投票信息
+#### Query a voter's vote on a proposal
 ```bash
 hbtccli query gov vote [proposal-id] [voter-addr] [flags]
 ```
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 |参数说明 |
-| ------ | ------ | ------ |
-| proposal-id | string | proposal id |
-| depositor-addr | string | depositor地址 |
+| Name           | Type   | Description              |
+| -------------- | ------ | ------------------------ |
+| proposal-id    | string | proposal id              |
+| depositor-addr | string | The address of depositor |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query gov vote 1 $(hbtccli keys show -a alice)
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "proposal_id": "1",
@@ -703,24 +703,24 @@ hbtccli query gov vote 1 $(hbtccli keys show -a alice)
 }
 ```
 
-#### 查询某提案的全部投票信息
+#### Query all voting information for a proposal
+
 ```bash
 hbtccli query gov votes [proposal-id] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 |参数说明 |
-| ------ | ------ | ------ |
+##### Description of parameters
+
+| Name        | Type   | Description |
+| ----------- | ------ | ----------- |
 | proposal-id | string | proposal id |
 
+##### Example
 
-
-
-##### 示例
 ```bash
 hbtccli query gov votes 1 
 ```
-##### 成功返回
+##### Success response
 ```json
 [
   {
@@ -738,25 +738,25 @@ hbtccli query gov votes 1
 
 
 
-#### 查询某提案的发起者
+#### Query the proposal initiator 
+
 ```bash
-hbtccli query gov proposer [proposal-id] [flags] 
+hbtccli query gov proposer [proposal-id] [flags]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ | 
+| Name        | Type   | Description |
+| ----------- | ------ | ----------- |
 | proposal-id | string | proposal id |
 
+##### Example
 
-
-##### 示例
 ```bash
 hbtccli query gov proposer 1
 ```
 
-##### 成功返回
+##### success response
 ```json
 {
   "proposal_id": "1",
@@ -765,23 +765,24 @@ hbtccli query gov proposer 1
 ```
 
 
-#### 查询某提案投票结果
+#### Query the voting results of a proposal
 ```bash
 hbtccli query gov tally [proposal-id] [flags] 
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ | 
+| Name        | Type   | Description |
+| ----------- | ------ | ----------- |
 | proposal-id | string | proposal id |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query gov tally 1
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "yes": "0",
@@ -791,19 +792,20 @@ hbtccli query gov tally 1
 }
 ```
 
-### staking 
+### staking
 
-#### 查询staking模块的参数
+#### Query parameters of the staking module
+
 ```bash
 hbtccli query staking params
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli query staking params
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "unbonding_time": "1814400000000000",
@@ -814,15 +816,15 @@ hbtccli query staking params
 }
 ```
 
-#### 查询所有的validators
+#### Query all validators
 ```bash
 hbtccli query staking validators
 ```
-##### 示例
+##### Example
 ```bash
 hbtccli query staking validators
 ```
-##### 成功返回
+##### Success response
 ```json
 [
   {
@@ -855,23 +857,27 @@ hbtccli query staking validators
 ```
 
 
-#### 查询某一个validator
+
+#### Query a validator
+
 ```bash
 hbtccli query staking validator [validator-addr] [flags]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
+| Name           | Type   | Description                                       |
+| -------------- | ------ | ------------------------------------------------- |
+| validator-addr | string | The validator address that starts with hbcvaloper |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query staking validator hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
 
-##### 成功返回
+##### Success response
+
 ```json
 {
   "operator_address": "hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun",
@@ -900,23 +906,27 @@ hbtccli query staking validator hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmu
 }
 ```
 
-#### 查询某delegtor给某validator的抵押
+
+
+#### Query stakes from a delegator to a validator
+
 ```bash
 hbtccli query staking delegation [delegator-addr] [validator-addr] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| delegator-addr | string | 以HBC开头的delegator地址 |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
+##### Description of parameters
 
+| Name           | Type   | Description                                       |
+| -------------- | ------ | ------------------------------------------------- |
+| delegator-addr | string | The delegator address that starts with HBC        |
+| validator-addr | string | The validator address that starts with hbcvaloper |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query staking delegation HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "delegator_address": "HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg",
@@ -926,25 +936,26 @@ hbtccli query staking delegation HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg hbcvaloper
 }
 ```
 
-#### 查询某delegtor所有的抵押
+#### Query all stakes that a delegtor pledged 
 ```bash
 hbtccli query staking delegations [delegator-addr] [flags]
 ```
 
-##### 参数说明
+##### 
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| delegator-addr | string | 以HBC开头的delegator地址 |
+##### Description of parameters
 
+| Name           | Type   | Description                                |
+| -------------- | ------ | ------------------------------------------ |
+| delegator-addr | string | The delegator address that starts with HBC |
 
+##### Example
 
-##### 示例
 ```bash
 hbtccli query staking delegations HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg
 ```
 
-##### 成功返回
+##### Success response
 ```json
 [
   {
@@ -962,24 +973,26 @@ hbtccli query staking delegations HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg
 ]
 ```
 
-#### 查询某delegtor给某validator的正在解冻的抵押
+#### Query the unlocking stakes that a delegator has pledged to a validator
+
 ```bash
 hbtccli query staking unbonding-delegation [delegator-addr] [validator-addr] [flags]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| delegator-addr | string | 以HBC开头的delegator地址 |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
+| Name           | Type   | Description                                       |
+| -------------- | ------ | ------------------------------------------------- |
+| delegator-addr | string | The delegator address that starts with HBC        |
+| validator-addr | string | The validator address that starts with hbcvaloper |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query staking unbonding-delegation HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "delegator_address": "HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg",
@@ -996,23 +1009,27 @@ hbtccli query staking unbonding-delegation HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg 
 ```
 
 
-#### 查询某delegtor所有的正在解冻的抵押
+#### 
+#### Query the unlocking pledges of a delegtor
+
 ```bash
 hbtccli query staking unbonding-delegations [delegator-addr] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| delegator-addr | string | 以BHC开头的delegator地址 |
+##### Description of parameters
 
+| Name           | Type   | Description                                |
+| -------------- | ------ | ------------------------------------------ |
+| delegator-addr | string | The delegator address that starts with BHC |
 
+##### Example
 
-##### 示例
 ```bash
 hbtccli query staking unbonding-delegations HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 [
   {
@@ -1030,24 +1047,27 @@ hbtccli query staking unbonding-delegations HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg
 ]
 ```
 
-#### 查询某delegtor redeleagte的抵押
+#### Query the stakes of a delegtor redeleagte
+
 ```bash
 hbtccli query staking redelegation [delegator-addr] [src-validator-addr] [dst-validator-addr] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| delegator-addr | string | 以HBC开头的delegator地址 |
-| src-validator-add | string | 以hbcvaloper开头的源validator地址 |
-| dst-validator-addr | string | 以hbcvaloper开头的目的validator地址 |
+##### Description of parameters
 
-##### 示例
+| Name               | Type   | Description                                                  |
+| ------------------ | ------ | ------------------------------------------------------------ |
+| delegator-addr     | string | The delegator address that starts with HBC                   |
+| src-validator-add  | string | The source validator address that starts with hbcvaloper     |
+| dst-validator-addr | string | The destination validator address that starts with hbcvaloper |
+
+##### Example
+
 ```bash
 query staking redelegation HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun hbcvaloper136g7jus2k0x7xv7wfusf5npzl5c3uf2cgrwf7z
 ```
 
-##### 成功返回
+##### Success response
 ```json
 [
   {
@@ -1067,17 +1087,20 @@ query staking redelegation HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg hbcvaloper1mcfzd
 ]
 ```
 
-#### 查询某delegtor所有redelegate抵押
+#### Query all stakes that a delegtor redelegated
+
 ```bash
-hbtccli query staking redelegations 
+hbtccli query staking redelegations
 ```
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query staking redelegations HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg
 ```
 
-##### 成功返回
+##### Success response
+
 ```json
 [
   {
@@ -1097,24 +1120,26 @@ hbtccli query staking redelegations HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg
 ]
 ```
 
-#### 查询validator收到的所有抵押
+#### Query all stakes that a validator received
+
 ```bash
   hbtccli query staking delegations-to [validator-addr] [flags]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
+| Name           | Type   | Description                                       |
+| -------------- | ------ | ------------------------------------------------- |
+| validator-addr | string | The validator address that starts with hbcvaloper |
 
+##### Example
 
-##### 示例
 ```bash
  hbtccli query staking delegations-to hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
 
-##### 成功返回
+##### Success response
+
 ```json
 [
   {
@@ -1132,22 +1157,26 @@ hbtccli query staking redelegations HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg
 ]
 ```
 
-#### 查询所有从某validator redelegate给其他validator 的抵押
+#### Query all pledges from one validator redelegate to other validators
+
 ```bash
 hbtccli query staking redelegations-from [validator-addr] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 |参数说明 |
-| ------ | ------ | ------ |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
+##### Description of parameters
 
-##### 示例
+| Name           | Type   | Description                                       |
+| -------------- | ------ | ------------------------------------------------- |
+| validator-addr | string | The validator address that starts with hbcvaloper |
+
+##### Example
+
 ```bash
 hbtccli query staking redelegations-from hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
 
-##### 成功返回
+##### Success response
+
 ```json
 [
   {
@@ -1167,23 +1196,26 @@ hbtccli query staking redelegations-from hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8l
 ]
 ```
 
+#### Query the unlocking pledge of a validator
 
-#### 查询validator正在解冻的抵押
 ```bash
 hbtccli query staking unbonding-delegations-from [validator-addr] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 |参数说明 |
-| ------ | ------ | ------ |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
+##### Description of parameters
 
-##### 示例
+| Name           | Type   | Description                                       |
+| -------------- | ------ | ------------------------------------------------- |
+| validator-addr | string | The validator address that starts with hbcvaloper |
+
+##### Example
+
 ```bash
 hbtccli query staking unbonding-delegations-from hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
 
-##### 成功返回
+##### Success response
+
 ```json
 [
   {
@@ -1201,17 +1233,20 @@ hbtccli query staking unbonding-delegations-from hbcvaloper1mcfzdxltqmjfa8v5wrqr
 ]
 ```
 
+#### Query the balance in the staking pool
 
-#### 查询staking pool中的金额
-```bash
-$hbtccli query staking pool
-```
-##### 示例
 ```bash
 $hbtccli query staking pool
 ```
 
-##### 成功返回
+##### Example
+
+```bash
+$hbtccli query staking pool
+```
+
+##### Success response
+
 ```json
 {
   "not_bonded_tokens": "30000000000000000000",
@@ -1219,18 +1254,22 @@ $hbtccli query staking pool
 }
 ```
 
+### distribution
 
-### distribution 
+#### Query the parameters of distribution
 
-#### 查询distribution的参数
 ```bash
 hbtccli query distribution params
 ```
-##### 示例
+
+##### Example
+
 ```bash
 hbtccli query distribution params
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 {
   "community_tax": "0.020000000000000000",
@@ -1240,23 +1279,24 @@ hbtccli query distribution params
 }
 ```
 
-#### 查询validator-outstanding-rewards
+#### Query validator-outstanding-rewards
+
 ```bash
 hbtccli query distribution validator-outstanding-rewards [validator] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| validator | string | 以hbcvaloper开头的validator地址 |
+##### Description of parameters
 
+| Name      | Type   | Description                                       |
+| --------- | ------ | ------------------------------------------------- |
+| validator | string | The validator address that starts with hbcvaloper |
 
+##### Example
 
-##### 示例
 ```bash
 hbtccli query distribution validator-outstanding-rewards hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
-##### 成功返回
+##### Success response
 ```json
 [
   {
@@ -1266,66 +1306,75 @@ hbtccli query distribution validator-outstanding-rewards hbcvaloper1mcfzdxltqmjf
 ]
 ```
 
-#### 查询validator的commisssion
+#### Query the commisssion of a validator
+
 ```bash
  hbtccli query distribution commission [validator] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| validator | string | 以hbcvaloper开头的validator地址 |
+##### Description of parameters
 
-##### 示例
+| Name      | Type   | Description                                       |
+| --------- | ------ | ------------------------------------------------- |
+| validator | string | The validator address that starts with hbcvaloper |
+
+##### Example
+
 ```bash
 hbtccli query distribution commission hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 null
 ```
-注：因为目前几个validator 的commission都设置为0
+NOTE: Several validators commission is currently set to 0
 
-#### 查询validator的slashes
+#### Query the validator's slashes
+
 ```bash
 hbtccli query distribution slashes [validator] [start-height] [end-height] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| validator | string | hbcvaloper开头的validator地址 |
-| start-height | string | start hegiht |
-| end-height | string | end hegiht |
+##### Description of parameters
 
-##### 示例
+| Name         | Type   | Description                                       |
+| ------------ | ------ | ------------------------------------------------- |
+| validator    | string | The validator address that starts with hbcvaloper |
+| start-height | string | start hegiht                                      |
+| end-height   | string | end hegiht                                        |
+
+##### Example
+
 ```bash
 hbtccli query distribution slashes hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun 0 100
 ```
 
-##### 成功返回
+##### Success response
 ```json
 null
 ```
 
+#### Query the validator's rewards
 
-#### 查询validator的rewards
 ```bash
 hbtccli query distribution rewards [delegator-addr] [<validator-addr>] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| delegator-addr | string | 以HBC开头的delegator地址 |
-| validator-addr | string | 以hbcvaloper开头的validator地址,可选 |
+##### Description of parameters
 
+| Name           | Type   | Description                                                 |
+| -------------- | ------ | ----------------------------------------------------------- |
+| delegator-addr | string | The delegator address that starts with HBC                  |
+| validator-addr | string | The validator address that starts with hbcvaloper, optional |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query distribution rewards HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun
 ```
-##### 成功返回
+##### Success response
 ```json
 [
   {
@@ -1335,15 +1384,20 @@ hbtccli query distribution rewards HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg hbcvalop
 ]
 ```
 
-#### 查询community-pool
+#### Query community-pool
+
 ```bash
 hbtccli query distribution community-pool
 ```
-##### 示例
+
+##### Example
+
 ```bash
 hbtccli query distribution community-pool
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 [
   {
@@ -1353,18 +1407,22 @@ hbtccli query distribution community-pool
 ]
 ```
 
+### slashing
 
-### slashing 
+#### Query the parameters of slashing
 
-#### 查询slashing的参数
 ```bash
 hbtccli query slashing params
 ```
-##### 示例
+
+##### Example
+
 ```bash
 hbtccli query slashing params
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 {
   "max_evidence_age": "120000000000",
@@ -1376,24 +1434,24 @@ hbtccli query slashing params
 }
 ```
 
-#### 查询一个validator 的签名信息
+#### Query a validator's signing information
 
 ```bash
 hbtccli query slashing signing-info [validator-conspub] [flags]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| validator-conspub | string | 以hbcvalconspub开头的validator 公钥 |
+| Name              | Type   | Description                                             |
+| ----------------- | ------ | ------------------------------------------------------- |
+| validator-conspub | string | The validator public key that starts with hbcvalconspub |
 
-##### 示例
+##### Example
 
 ```bash
 hbtccli query slashing signing-info hbcvalconspub1zcjduepq69plcv4nzg27qashf328q0p6uc8cdpl4u3fz5sd2ugz34nk0u4ws2zrp0f
 ```
-##### 成功返回
+##### Success response
 
 ```json
 {
@@ -1406,15 +1464,20 @@ hbtccli query slashing signing-info hbcvalconspub1zcjduepq69plcv4nzg27qashf328q0
 }
 ```
 ### hrc20
-#### 查询hrc20模块参数
+#### Query the parameters of hrc20 module
+
 ```bash
 hbtccli query hrc20 params
 ```
-##### 示例
+
+##### Example
+
 ```bash
 hbtccli query hrc20 params
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 {
   "issue_token_fee": "10000000000000000000000"
@@ -1422,21 +1485,24 @@ hbtccli query hrc20 params
 ```
 
 ### cu
-#### 查询某个cu的信息
+#### Query for a cu information
+
 ```bash
-hbtccli query cu cuinfo [cu_addr][flags] 
+hbtccli query cu cuinfo [cu_addr][flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| cu-addr | string | 以HBC开头的托管托单元地址 |
+##### Description of parameters
 
-##### 示例
+| Name    | Type   | Description                                      |
+| ------- | ------ | ------------------------------------------------ |
+| cu-addr | string | The custodian unit address which starts with HBC |
+
+##### Example
+
 ```bash
 hbtccli query cu cuinfo $(hbtccli keys show -a alice)
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "type": "hbtcchain/CustodianUnit",
@@ -1468,9 +1534,7 @@ hbtccli query cu cuinfo $(hbtccli keys show -a alice)
       {
         "denom": "eth",
         "address": "0x0B2dE9E53f794A51D133afae5cF6142DA4130Fb3",
-        "enbale_sendtx": false,
-        "epoch": 1,
-        "nonce": 0,
+        "enbale_sendtx": false
       }
     ],
     "asset_coins": [
@@ -1488,22 +1552,25 @@ hbtccli query cu cuinfo $(hbtccli keys show -a alice)
 }
 ```
 
-#### 查询某个cu 某个币种的数量
+#### Query the amount of a token of a cu
+
 ```bash
-hbtccli query cu cucoin [cu_addr][symbol] 
+hbtccli query cu cucoin [cu_addr][symbol]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| cu-addr | string | 以HBC开头的托管托单元地址 |
-| symbol | string | 币种名称 |
+##### Description of parameters
 
-##### 示例
+| Name    | Type   | Description                                      |
+| ------- | ------ | ------------------------------------------------ |
+| cu-addr | string | The custodian unit address which starts with HBC |
+| symbol  | string | The token name                                   |
+
+##### Example
+
 ```bash
 hbtccli query cu cucoin $(hbtccli keys show -a alice) eth
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "type": "hbtcchain/CUCoin",
@@ -1518,66 +1585,61 @@ hbtccli query cu cucoin $(hbtccli keys show -a alice) eth
 }
 ```
 
-#### 查询某个币种的opcu信息
-```bash
-hbtccli query cu op [symbol] 
-```
-##### 参数说明
+#### Query the opcu information for a token
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| symbol | string | 币种名称 |
-
-##### 示例
 ```bash
-hbtccli query cu op eth
+hbtccli query cu op [symbol]
 ```
-##### 成功返回
+
+##### Description of parameters
+
+| Name   | Type   | Description         |
+| ------ | ------ | ------------------- |
+| symbol | string | The symbol of token |
+
+##### Example
+
+```bash
+hbtccli query cu eth
 ```
-[
-  {
-    "symbol": "eth",
-    "cu_address": "HBCaxX5tAug3F6Ygw5zBwSMtSA16MoLM4ULJ",
-    "locked": false,
-    "amount": "0",
-    "multisign_adress": "",
-    "deposit_list": null,
-    "main_net_amount": "0",
-    "gas_used": "0",
-    "gas_received": "0"
-  }
-]
+
+##### Success response
+
+```
+
 ```
 
 ### mapping
 
-用于查询资产映射模块的信息
+for query the information of the asset mapping module
 
-#### 查询单个资产映射合约
+#### Query the mapping contract of a token
+
 ```bash
 hbtccli query mapping info [issue-symbol]
 ```
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| issue-symbol | string | 被查询的资产映射合约的发行token symbol |
+| Name         | Type   | Description                                                 |
+| ------------ | ------ | ----------------------------------------------------------- |
+| issue-symbol | string | The token symbol of an asset mapping contract to be queried |
 
-##### 返回值说明
+##### Description of response
 
-| 名称 | 类型 | 返回值说明 |
-| ------ | ------ | ------ |
-| issue_symbol | string | 资产映射合约的发行token symbol |
-| target_symbol | string | 资产映射合约的映射目标token symbol |
-| total_supply | string | 发行token总量，于映射目标token发行量一致 |
-| issue_pool | string | 发行池里剩余token总量，total_supply - issue-pool为发行出去的token总量 |
-| enabled | bool | 是否允许发行和兑换 |
+| Name          | Type   | Description                                                  |
+| ------------- | ------ | ------------------------------------------------------------ |
+| issue_symbol  | string | The token symbol of an asset mapping contract                |
+| target_symbol | string | The target token symbol of an asset mapping contract         |
+| total_supply  | string | Total supply of the issued tokens, in line with the total supply of the mapped target token |
+| issue_pool    | string | Remaining tokens in the issue-pool, total_supply - issue-pool is the total number of tokens issued |
+| enabled       | bool   | Whether issuance and exchange are permitted                  |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query mapping info cbtc
 ```
-##### 成功返回
+##### ccess response
 ```json
 {
   "issue_symbol": "cbtc",
@@ -1588,363 +1650,58 @@ hbtccli query mapping info cbtc
 }
 ```
 
-#### 查询所有资产映射合约
+#### Query all asset mapping contracts
+
 ```bash
 hbtccli query mapping list
 ```
 
-##### 返回值说明
+##### Returned value description
 
-返回所有资产映射合约的信息，以数组方式，每个项内容参考上一节
+Return an array of all asset mapping contracts, with each item referring to the previous section
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli query mapping list
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
-[
-	{
-	  "issue_symbol": "cbtc",
-	  "target_symbol": "btc",
-	  "total_supply": "2100000000000000",
-	  "issue_pool": "2099999999876644",
-	  "enabled":true
-	}
-]
+[{
+  "issue_symbol": "cbtc",
+  "target_symbol": "btc",
+  "total_supply": "2100000000000000",
+  "issue_pool": "2099999999876644",
+  "enabled":true
+}]
 ```
-
-### openswap
-
-用于查询 openswap 模块的信息
-
-#### 查询交易对
-```bash
-hbtccli query openswap pair [tokenA] [tokenB]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| tokenA | string | 交易对的第一个币种 |
-| tokenB | string | 交易对的第二个币种 |
-
-##### 返回值说明
-
-| 名称 | 类型 | 返回值说明 |
-| ------ | ------ | ------ |
-| token\_a | string | 交易对的第一个币种 |
-| token\_b | string | 交易对的第二个币种 |
-| token\_a\_amount | string | 第一个币种的存量 |
-| token\_b\_amount | string | 第二个币种的存量 |
-| total\_liquidity | string | 总流动性 |
-
-##### 示例
-```bash
-hbtccli query openswap pair btc hbc
-```
-##### 成功返回
-```json
-{
-  "token_a": "btc",
-  "token_b": "hbc",
-  "token_a_amount": "59384999484685",
-  "token_b_amount": "3387962241353415397518",
-  "total_liquidity": "447882661837354805"
-}
-```
-
-#### 查询某地址提供的流动性列表
-```bash
-hbtccli query openswap liquidity [addr]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| addr | string | 被查询的地址 |
-
-
-##### 返回值说明
-
-| 名称 | 类型 | 返回值说明 |
-| ------ | ------ | ------ |
-| trading\_pair | object | 交易对信息 |
-| liquidity | string | 提供的流动性 |
-| liquidity\_share | string | 提供的流动性占比 |
-
-##### 示例
-```bash
-hbtccli query openswap liquidity HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd
-```
-##### 成功返回
-```json
-[
-  {
-    "trading_pair": {
-      "token_a": "btc",
-      "token_b": "hbc",
-      "token_a_amount": "10000000000000000000000",
-      "token_b_amount": "4000000000000000000",
-      "total_liquidity": "200000000000000000000"
-    },
-    "liquidity": "199999999999999999000",
-    "liquidity_share": "0.999999999999999995"
-  }
-]
-```
-
-#### 查询订单
-```bash
-hbtccli query openswap order [orderID]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| orderID | string | 订单号 |
-
-
-##### 返回值说明
-
-| 名称 | 类型 | 返回值说明 |
-| ------ | ------ | ------ |
-| order\_id | object | 订单号 |
-| base_symbol | string | 基础币种 |
-| quote_symbol | string | 竞价币种 |
-| from | string | 交易对发起者 |
-| referer | string | 邀请人 |
-| receiver | string | 收款地址 |
-| created_time | string | 创建时间 |
-| expired_time | string | 订单过期时间，小于0表示不过期 |
-| finished_time | string | 订单完成时间 |
-| status | int | 订单状态，0-未成交；1-部分成交；2-完全成交；3-取消；4-过期 |
-| side | int | 订单方向，0-买；1-卖 |
-| price | string | 价格 |
-| amount_in | string | 花费的总资产数量 |
-| locked_fund | string | 锁定的资产数量 |
-| remain_quantity | string | 未成交数量 |
-
-
-##### 示例
-```bash
-hbtccli query openswap order 75d04ab1-bb96-4874-b0a6-a1b0fbd2aa0b
-```
-##### 成功返回
-```json
-{
-  "order_id": "75d04ab1-bb96-4874-b0a6-a1b0fbd2aa0b",
-  "from": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-  "referer": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-  "receiver": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-  "created_time": "1600668034",
-  "expired_time": "-1",
-  "finished_time": "0",
-  "status": 0,
-  "side": 1,
-  "base_symbol": "btc",
-  "quote_symbol": "hbc",
-  "price": "650000000.000000000000000000",
-  "amount_int": "3540000000",
-  "locked_fund": "3540000000",
-  "remain_quantity": "3540000000"
-}
-```
-
-
-#### 查询交易对的订单簿
-```bash
-hbtccli query openswap orderbook [pair]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| pair | string | 交易对 |
-
-
-##### 返回值说明
-
-| 名称 | 类型 | 返回值说明 |
-| ------ | ------ | ------ |
-| buy | array | 买单列表 |
-| sell | array | 卖单列表 |
-
-##### 示例
-```bash
-hbtccli query openswap orderbook btc-hbc
-```
-##### 成功返回
-```json
-{
-  "buy": [
-    {
-      "order_id": "bc18f239-993b-4682-bfba-0df70df92f8e",
-      "from": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-      "referer": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-      "receiver": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-      "created_time": "1600675273",
-      "expired_time": "-1",
-      "finished_time": "0",
-      "status": 1,
-      "side": 0,
-      "base_symbol": "btc",
-      "quote_symbol": "hbc",
-      "price": "56000000.000000000000000000",
-      "amount_int": "10000000000000000000",
-      "locked_fund": "1325506233937552314"
-   	}
-  ],
-  "sell": [
-    {
-      "order_id": "75d04ab1-bb96-4874-b0a6-a1b0fbd2aa0b",
-      "from": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-      "referer": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-      "receiver": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-      "created_time": "1600668034",
-      "expired_time": "-1",
-      "finished_time": "0",
-      "status": 0,
-      "side": 1,
-      "base_symbol": "btc",
-      "quote_symbol": "hbc",
-      "price": "650000000.000000000000000000",
-      "amount_int": "3540000000",
-      "locked_fund": "3540000000"
-    }
-  ]
-```
-
-#### 查询某地址的未成交订单
-```bash
-hbtccli query openswap pending-orders [pair] [addr]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| pair | string | 交易对 |
-| addr | string | 待查询地址 |
-
-##### 示例
-```bash
-hbtccli query openswap pending-orders btc-hbc HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd
-```
-
-##### 成功返回
-```json
-[
-  {
-    "order_id": "bc18f239-993b-4682-bfba-0df70df92f8e",
-    "from": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-    "referer": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-    "receiver": "HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd",
-    "created_time": "1600675273",
-    "expired_time": "-1",
-    "finished_time": "0",
-    "status": 1,
-    "side": 0,
-    "base_symbol": "btc",
-    "quote_symbol": "hbc",
-    "price": "56000000.000000000000000000",
-    "amount_int": "10000000000000000000",
-    "locked_fund": "1325506233937552314",
-    "remain_quantity": "23669754177"
-  }
-]
-```
-
-#### 查询某地址的未领取收益
-```bash
-hbtccli query openswap earnings [addr]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| addr | string | 待查询地址 |
-
-##### 返回值说明
-
-| 名称 | 类型 | 返回值说明 |
-| ------ | ------ | ------ |
-| token_a | string | 交易对的第一个币种 |
-| token_b | string | 交易对的第二个币种 |
-| amount | string | 待领取的 hdt 数量 |
-
-
-##### 示例
-```bash
-hbtccli query openswap earnings HBCioVa2xVPuXhseov7KkMMNdV2GwnEuEopd
-```
-
-##### 成功返回
-```json
-[
-  {
-    "token_a": "btc",
-    "token_a": "hbc",
-    "amount": "120000000"
-  }
-]
-```
-
-#### 查询openswap模块参数
-```bash
-hbtccli query openswap params
-```
-
-##### 返回值说明
-
-| 名称 | 类型 | 返回值说明 |
-| ------ | ------ | ------ |
-| minimum\_liquidity | string | 交易对的最小流动性 |
-| fee\_rate | string | 交易手续费比例 |
-| repurchase\_rate | string | 回购资金比例 |
-| referer\_transaction\_bonus\_rate | string | 邀请人奖励比例 |
-| referer\_mining\_bonus\_rate | string | 邀请人挖矿奖励比例 |
-| mining\_weights | array | 挖矿交易对权重 |
-| mining\_plans | array | 代币挖矿周期 |
-
-##### 示例
-```bash
-hbtccli query openswap params
-```
-##### 成功返回
-```json
-{
-	"minimum_liquidity":"1000",
-	"fee_rate":"0.002250000000000000",
-	"repurchase_rate":"0.000500000000000000",
-	"referer_transaction_bonus_rate":"0.000250000000000000",
-	"referer_mining_bonus_rate":"0.100000000000000000",
-	"mining_weights":[{"token_a":"hbc","token_b":"test","weight":"1"}],
-	"mining_plans":[{"start_height":"1","mining_per_block":"3000000000"},{"start_height":"650001","mining_per_block":"1500000000"},{"start_height":"1000001","mining_per_block":"750000000"},{"start_height":"1700001","mining_per_block":"375000000"},{"start_height":"3500001","mining_per_block":"300000000"}]
-}
-```
-
-
 
 ## tx
 ### keygen
-#### 创建运营托管单元（OPCU）
+#### Create operation custodian unit (OPCU)
+
 ```bash
 hbtccli tx keygen newopcu [from_key_or_address] [symbol] [Op_CU_address]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| from\_key\_or\_address | string | newopcu交易发起者地址 |
-| symbol | string | 币种 |
-| to | string | OPCU地址 |
+##### Description of parameters
 
-##### 示例
-创建一个eth运营托管单元，地址为HBCPoshPen4yTWCwCvCVuwbfSmrb3EzNbXTo, 该地址必须是未被使用的地址
+| Name                | Type   | Description                               |
+| ------------------- | ------ | ----------------------------------------- |
+| from_key_or_address | string | the newopcu transaction initiator address |
+| symbol              | string | Symbol of the token                       |
+| to                  | string | OPCU address                              |
+
+##### Example
+
+Create an eth operations custodian unit with the address HBCPoshPen4yTWCwCvCVuwbfSmrb3EzNbXTo, which must be an unused address
+
 ```bash
 hbtccli tx keygen newopcu HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg eth HBCPoshPen4yTWCwCvCVuwbfSmrb3EzNbXTo --chain-id hbtc-testnet --gas-prices 1000000000000.0hbc --home ../testnetdocker/node0/hbtccli
 ```
-##### 成功返回
+##### Success response
 ```bash
 {
   "chain_id": "hbtc-testnet",
@@ -1973,7 +1730,7 @@ hbtccli tx keygen newopcu HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg eth HBCPoshPen4yT
 }
 
 confirm transaction before signing and broadcasting [y/N]: y
-Password to sign with 'node0':<输入密码>
+Password to sign with 'node0':<input password>
 height: 0
 txhash: B8FEF2E621686136882ADA19C939D959982D979C13BB51D3ACA29C4C964AC777
 code: 0
@@ -1997,24 +1754,27 @@ timestamp: ""
 events: []
 ```
 
-#### 为托管单元（CU）生成币种地址
+#### Generate token addresses for the custodian unit (CU)
+
 ```
 keygen [from_key_or_address] [symbol] [to]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| from\_key\_or\_address | string | keygen交易发起者地址 |
-| symbol | string | 币种 |
-| to | string | 创建币种地址的所有者 |
+##### Description of parameters
 
-##### 示例
-为HBCPoshPen4yTWCwCvCVuwbfSmrb3EzNbXTo 生成eth地址 
+| Name                | Type   | Description                                     |
+| ------------------- | ------ | ----------------------------------------------- |
+| from_key_or_address | string | The initiator address of the keygen transaction |
+| symbol              | string | The symol of token                              |
+| to                  | string | Owner of the created token address              |
+
+##### Example
+
+generates an eth address for HBCPoshPen4yTWCwCvCVuwbfSmrb3EzNbXTo 
 ```bash
 hbtccli tx keygen keygen HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg eth HBCPoshPen4yTWCwCvCVuwbfSmrb3EzNbXTo --chain-id hbtc-testnet --gas-prices 1000000000000.0hbc --home ../testnetdocker/node0/hbtccli
 ```
-##### 成功返回
+##### Success response
 ```bash
 {
   "chain_id": "hbtc-testnet",
@@ -2044,7 +1804,7 @@ hbtccli tx keygen keygen HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg eth HBCPoshPen4yTW
 }
 
 confirm transaction before signing and broadcasting [y/N]: y
-Password to sign with 'node0':<输入密码>
+Password to sign with 'node0':<input password>
 height: 0
 txhash: 4ABC263EFFAC364ED966EE4654ADEC050D6A1C2886B229CE13556010111531E9
 code: 4
@@ -2062,31 +1822,31 @@ events: []
 ```
 
 ### gov
-#### 发起文本提案
+#### Initiate a text proposal
 ```bash
-hbtccli tx gov submit-proposal --title="Test Proposal Title" --description="Test Proposal Contents" --type="Text" --deposit="10hbc" --from mykey --gas-prices 1000000000000.0hbc --votetime 1440
+hbtccli tx gov submit-proposal --title="Test Proposal Title" --description="Test Proposal Contents" --type="Text" --deposit="10hbc" --from mykey --gas-prices 1000000000000.0hbc
 ```
-或者
+Or
 ```bash
 hbtccli tx gov submit-proposal --proposal="path/to/proposal.json" --from mykey --gas-prices 1000000000000.0hbc
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| title | string | 提案的标题 |
-| description | string | 提案的内容 |
-| type | string | 发起提案的类型（这里指定为Text |
-| from | string | 提案发起者 |
-| votetime | int | 投票时间 |
+| Name        | Type   | Description                                   |
+| ----------- | ------ | --------------------------------------------- |
+| title       | string | The proposal title                            |
+| description | string | The proposal content                          |
+| type        | string | The type of proposal (specified here as Text) |
+| from        | string | The originator of the proposal                |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx gov submit-proposal --title="Test Proposal Title" --description="Test Proposal Contents" --type="Text" --deposit="100000000000000000000000hbc" --from alice --gas-prices 1000000000000.0hbc
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "height": "0",
@@ -2113,16 +1873,20 @@ hbtccli tx gov submit-proposal --title="Test Proposal Title" --description="Test
 }
 ```
 
-#### 发起修改参数提案
+#### Launch a proposal on change parameters
+
 ```bash
 tx gov submit-proposal param-change <path/to/proposal.json> --from=<key_or_address>
 ```
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx gov submit-proposal param-change staking_params_change.json --from alice
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 {
   "height": "0",
@@ -2150,16 +1914,16 @@ hbtccli tx gov submit-proposal param-change staking_params_change.json --from al
 ```
 
 
-#### 发起community-pool-spend提案
+#### Initiate a community-pool-spend proposal
 ```bash
 tx gov submit-proposal community-pool-spend <path/to/proposal.json> --from=<key_or_address>
 ```
 
-##### 示例
+##### Example
 ```bash
 hbtccli tx gov submit-proposal community-pool-spend community_pool_spend.json --from alice
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "height": "0",
@@ -2188,16 +1952,20 @@ hbtccli tx gov submit-proposal community-pool-spend community_pool_spend.json --
 
 
 
-#### 发起投票上币提案
+#### Initiate a voting proposal to add a new token
+
 ```bash
 tx gov submit-proposal add-token <path/to/proposal.json> --from=<key_or_address>
 ```
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx gov submit-proposal add-token add_token_proposal.json --from alice
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 {
   "height": "0",
@@ -2224,16 +1992,20 @@ hbtccli tx gov submit-proposal add-token add_token_proposal.json --from alice
 }
 ```
 
-#### 发起修改币种参数提案
+#### Initiate a proposal to change a token's parameters
+
 ```bash
 tx gov submit-proposal token-params-change <path/to/proposal.json> --from=<key_or_address>
 ```
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx gov submit-proposal token-params-change token_params_change_proposal.json --from alice
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 {
   "height": "0",
@@ -2260,16 +2032,20 @@ hbtccli tx gov submit-proposal token-params-change token_params_change_proposal.
 }
 ```
 
-#### 发起投票下币提案
+#### Initiate  a voting proposal to delist a token
+
 ```bash
 tx gov submit-proposal disable-token <path/to/proposal.json> --from=<key_or_address>
 ```
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx gov submit-proposal disable-token disable_token_proposal.json --from alice
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 {
   "height": "0",
@@ -2296,168 +2072,25 @@ hbtccli tx gov submit-proposal disable-token disable_token_proposal.json --from 
 }
 ```
 
-#### 发起软件升级提案
-```bash
-hbtccli tx gov submit-proposal software-upgrade [name] (--upgrade-height [height] | --upgrade-time [time]) (--upgrade-info [info]) --from=<key_or_address>
-```
+#### Pledge funds for a proposal
 
-##### 示例
-```bash
-hbtccli tx gov submit-proposal software-upgrade mainnet_v2 --upgrade-height 100000000 --from alice
-```
-##### 成功返回
-```json
-{
-  "height": "0",
-  "txhash": "39C6730F288E515D02B5B233A8022E51C56A54C807BB2BC9E4A5DB4657A17CB7",
-  "raw_log": "[{\"msg_index\":0,\"success\":true,\"log\":\"\",\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"submit_proposal\"}]}]}]",
-  "logs": [
-    {
-      "msg_index": 0,
-      "success": true,
-      "log": "",
-      "events": [
-        {
-          "type": "message",
-          "attributes": [
-            {
-              "key": "action",
-              "value": "submit_proposal"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 发起取消软件升级提案
-```bash
-hbtccli tx gov submit-proposal cancel-software-upgrade --from=<key_or_address>
-```
-
-##### 示例
-```bash
-hbtccli tx gov submit-proposal cancel-software-upgrade --from alice
-```
-##### 成功返回
-```json
-{
-  "height": "0",
-  "txhash": "39C6730F288E515D02B5B233A8022E51C56A54C807BB2BC9E4A5DB4657A17CB7",
-  "raw_log": "[{\"msg_index\":0,\"success\":true,\"log\":\"\",\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"submit_proposal\"}]}]}]",
-  "logs": [
-    {
-      "msg_index": 0,
-      "success": true,
-      "log": "",
-      "events": [
-        {
-          "type": "message",
-          "attributes": [
-            {
-              "key": "action",
-              "value": "submit_proposal"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 发起增加 mapping 币对提案
-```bash
-hbtccli tx gov submit-proposal add-mapping [issue-symbol] [target-symbol] [total-supply] --from=<key_or_address>
-```
-
-##### 示例
-```bash
-hbtccli tx gov submit-proposal add-mapping cbtc btc 2100000000000000 --from alice
-```
-##### 成功返回
-```json
-{
-  "height": "0",
-  "txhash": "39C6730F288E515D02B5B233A8022E51C56A54C807BB2BC9E4A5DB4657A17CB7",
-  "raw_log": "[{\"msg_index\":0,\"success\":true,\"log\":\"\",\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"submit_proposal\"}]}]}]",
-  "logs": [
-    {
-      "msg_index": 0,
-      "success": true,
-      "log": "",
-      "events": [
-        {
-          "type": "message",
-          "attributes": [
-            {
-              "key": "action",
-              "value": "submit_proposal"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 发起开启/关闭 mapping 币对提案
-```bash
-hbtccli tx gov submit-proposal switch-mapping [issue-symbol] [enable] --from=<key_or_address>
-```
-
-##### 示例
-```bash
-hbtccli tx gov submit-proposal switch-mapping cbtc false --from alice
-```
-##### 成功返回
-```json
-{
-  "height": "0",
-  "txhash": "39C6730F288E515D02B5B233A8022E51C56A54C807BB2BC9E4A5DB4657A17CB7",
-  "raw_log": "[{\"msg_index\":0,\"success\":true,\"log\":\"\",\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"submit_proposal\"}]}]}]",
-  "logs": [
-    {
-      "msg_index": 0,
-      "success": true,
-      "log": "",
-      "events": [
-        {
-          "type": "message",
-          "attributes": [
-            {
-              "key": "action",
-              "value": "submit_proposal"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 为某个提案抵押资金
 ```bash
 hbtccli tx gov deposit [proposal-id] [amount]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 |参数说明 |
-| ------ | ------ | ------ |
-| proposal-id | string | proposal id |
-| amount | string | 抵押的资金 |
+| Name        | Type   | Description       |
+| ----------- | ------ | ----------------- |
+| proposal-id | string | proposal id       |
+| amount      | string | The deposit funds |
 
+##### Example
 
-##### 示例
 ```bash
 hbtccli tx gov deposit 1 10000000000000000000000000hbc --gas-prices 1000000000000.0hbc --from alice
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "height": "0",
@@ -2484,20 +2117,27 @@ hbtccli tx gov deposit 1 10000000000000000000000000hbc --gas-prices 100000000000
 }
 ```
 
-#### 为某个提案投票
+#### Voting on a proposal
+
 ```bash
 hbtccli tx gov vote [proposal-id] [option] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| proposal-id | string | proposal id |
-| options | string | 投票选项yes/no/abstain/nowithveto |
+##### Description of parameters
 
+| Name        | Type   | Description                               |
+| ----------- | ------ | ----------------------------------------- |
+| proposal-id | string | proposal id                               |
+| options     | string | Voting options, yes/no/abstain/nowithveto |
 
+##### Example
 
-##### 示例
+```bash
+hbtccli tx gov vote 1 yes --from alice --gas-prices 1000000000000.0hbc
+```
+
+##### Success response
+
 ```bash
 hbtccli tx gov vote 1 yes --from alice --gas-prices 1000000000000.0hbc
 ```
@@ -2528,41 +2168,45 @@ hbtccli tx gov vote 1 yes --from alice --gas-prices 1000000000000.0hbc
 }
 ```
 
-#### 为 DAO 提案投票
+#### Vote for DAO proposal
 
-DAO 提案为通过特定代币进行投票的提案，投票后会锁定对应数量的代币，取消投票或者投票结束后会立即反还代币。
+DAO proposal is the voting proposal for a certain token, which a certain amount of the tokens will be locked after voting, while be returned after voting cancelled or finished. 
 
 ```bash
 hbtccli tx gov daovote [proposal-id] [coin] [option] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| proposal-id | string | proposal id |
-| coin | string | 代币数量 |
-| options | string | 投票选项yes/no/abstain/nowithveto |
+##### Description of parameters
 
-##### 示例
-用 hdt 代币对 1 号提案投 3000 赞成票。
+| Name        | Type   | Description                        |
+| ----------- | ------ | ---------------------------------- |
+| proposal-id | string | proposal id                        |
+| coin        | string | To ken amount                      |
+| options     | string | Options: yes/no/abstain/nowithveto |
+
+##### Example
+
+Use hdt token to vote 3000 "yes" to Proposal 1.
 
 ```bash
 hbtccli tx gov daovote 1 3000hdt yes --from alice --gas-prices 1000000000000.0hbc
 ```
 
-#### 取消 DAO 投票
+#### Cancel DAO Voting
 
 ```bash
 hbtccli tx gov canceldaovote [proposal-id] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
+##### Description of parameters
+
+| Name        | Type   | Description |
+| ----------- | ------ | ----------- |
 | proposal-id | string | proposal id |
 
-##### 示例
-对 1 号提案取消 DAO 投票。
+##### Example
+
+Cancel DAO votes to Proposal 1.
 
 ```bash
 hbtccli tx gov canceldaovote 1 --from alice --gas-prices 1000000000000.0hbc
@@ -2570,70 +2214,77 @@ hbtccli tx gov canceldaovote 1 --from alice --gas-prices 1000000000000.0hbc
 
 ### staking
 
-#### 创建 validator
+#### Create  validator
+
  ```bash
  hbtccli tx staking create-validator [flags]
  ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| pubkey| string | 签名区块的公私钥对的公钥 |
-| amount | string | 质押的币种以及金额 |
-| commission-max-rate | string | 佣金最大比例 |
-| commission-rate | string | 佣金比例 |
-| commission-max-change-rate | string | 佣金最大更新比例 |
-| min-self-delegation | string | 最少自我质押数量 |
-| moniker | string | 节点名称 |
-| website | string | 节点网站 |
-| details | string | 节点描述 |
+##### Description of parameters
 
-##### 示例
+| Name                       | Type   | Description                                                  |
+| -------------------------- | ------ | ------------------------------------------------------------ |
+| pubkey                     | string | Public key of the public & private key pair for the signing blocks |
+| amount                     | string | Token name and amount pledged                                |
+| commission-max-rate        | string | Maximum commission rate                                      |
+| commission-rate            | string | Commission rate                                              |
+| commission-max-change-rate | string | Maximum modification rate for commission                     |
+| min-self-delegation        | string | Minimum self-pledged amount                                  |
+| moniker                    | string | Node name                                                    |
+| website                    | string | Node website                                                 |
+| details                    | string | Node details                                                 |
+
+##### Example
 
 ```bash
 hbtccli tx staking create-validator --moniker alice --pubkey hbcvalconspub1zcjduepqcwj0py8n8rp5xf56744eydnsd3vpt9auhlste8ex0u863h9hvzesyqv5l8 --amount 100000000000000000000000hbc --commission-max-rate 0 --commission-rate 0 --commission-max-change-rate 0 --min-self-delegation 1000000000000000000 --from node0 --home testnet/node0/hbtccli --from alice --gas-prices 1000000000000.0hbc
 ```
 
-#### 更新 validator 信息
+#### Update validator information
+
  ```bash
  hbtccli tx staking edit-validator [flags]
  ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| description | string | 节点描述 |
-| commission-rate | string | 佣金比例 |
-| min-self-delegation | string | 最少自我质押数量 |
-| moniker | string | 节点名称 |
-| website | string | 节点网站 |
-| details | string | 节点描述 |
-| key-node | bool | 是否成为核心节点 |
+##### Description of parameters
 
-##### 示例
+##### Description of parameters
+
+| Name                | Type   | Description                              |
+| ------------------- | ------ | ---------------------------------------- |
+| description         | string | Node details                             |
+| commission-rate     | string | Commission rate                          |
+| min-self-delegation | string | Minimum modification rate for commission |
+| moniker             | string | Node name                                |
+| website             | string | Node website                             |
+| details             | string | Node details                             |
+| key-node            | bool   | Core nodes or not                        |
+
+##### Example
 
 ```bash
 hbtccli tx staking edit-validator --key-node true --from alice --gas-prices 1000000000000.0hbc
 ```
 
+#### Pledge assets to validator
 
-#### 将资产抵押给validator
  ```bash
  hbtccli tx staking delegate [validator-addr] [amount] [flags]
  ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
-| amount | string | 币种以及金额 |
+##### Description of parameters
 
-##### 示例
+| Name           | Type   | Description                                       |
+| -------------- | ------ | ------------------------------------------------- |
+| validator-addr | string | The validator address that starts with hbcvaloper |
+| amount         | string | Token name and amount                             |
+
+##### Example
 
 ```bash
 hbtccli tx staking delegate hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun  100000000000000000000hbc --from alice --gas-prices 1000000000000.0hbc
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "height": "0",
@@ -2660,26 +2311,26 @@ hbtccli tx staking delegate hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun  1
 }
 ```
 
-#### 将资产从一个validator 抵押给另外一个validator
+#### Pledge assets from one validator to another validator
+
  ```bash
 hbtccli tx staking redelegate [src-validator-addr] [dst-validator-addr] [amount] [flag]
  ```
-##### 参数说明
 
+##### Description of parameters
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| src-validator-addr | string | 以hbcvaloper开头的源validator地址 |
-| dst-validator-addr | string | 以hbcvaloper开头的目的validator地址 |
-| amount | string | 币种以及金额 |
+| Name               | Type   | Description                                              |
+| ------------------ | ------ | -------------------------------------------------------- |
+| src-validator-addr | string | The source validator address that begins with hbcvaloper |
+| dst-validator-addr | string | The target validator address that starts with hbcvaloper |
+| amount             | string | Token name and amount                                    |
 
-
-##### 示例
+##### Example
 
 ```bash
 hbtccli tx staking redelegate hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun hbcvaloper136g7jus2k0x7xv7wfusf5npzl5c3uf2cgrwf7z 50000000000000000000hbc --from alice --gas-prices 1000000000000.0hbc
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "height": "0",
@@ -2706,18 +2357,20 @@ hbtccli tx staking redelegate hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun 
 }
 ```
 
-#### 取消抵押给validator
+#### Cancle the pledge to validator
+
  ```bash
  hbtccli tx staking unbond [validator-addr] [amount] [flags]
  ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
-| amount | string | 币种以及金额 |
+##### Description of parameters
 
-##### 示例
+| Name           | Type   | Description                             |
+| -------------- | ------ | --------------------------------------- |
+| validator-addr | string | validator address begins withhbcvaloper |
+| amount         | string | Token name and amount                   |
+
+##### Example
 
 ```bash
 hbtccli tx staking unbond hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun 100000000000000000000hbc --from alice --gas-prices 1000000000000.0hbc
@@ -2726,23 +2379,26 @@ hbtccli tx staking unbond hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun 1000
 
 ### distribution
 
-#### 设置delegator rewards 的受益地址
+#### Configure the beneficiary address of delegator rewards
+
 ```bash
  hbtccli tx distribution set-withdraw-addr [withdraw-addr] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| withdraw-addr | string | 以HBC开头受益托管单元地址 |
+##### Description of parameters
 
-##### 示例
+| Name          | Type   | Description                                           |
+| ------------- | ------ | ----------------------------------------------------- |
+| withdraw-addr | string | Address of beneficiary custodian unit starts with HBC |
+
+##### Example
+
 ```bash
  hbtccli tx distribution set-withdraw-addr HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg --from mykey --gas-prices 1000000000000.0hbc
 
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "height": "0",
@@ -2769,23 +2425,25 @@ hbtccli tx staking unbond hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun 1000
 }
 ```
 
-#### 从某个validator提取抵押收益
+#### Withdrawal pledged rewards from a validator
+
 ```bash
 hbtccli tx distribution withdraw-rewards [validator-addr] [flags]
 ```
 
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| validator-addr | string | 以hbcvaloper开头的validator地址 |
+| Name           | Type   | Description                                     |
+| -------------- | ------ | ----------------------------------------------- |
+| validator-addr | string | Validator addresses that starts with hbcvaloper |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx distribution withdraw-rewards hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8lu88f3hsmun --from alice --gas-prices 1000000000000.0hbc
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "height": "0",
@@ -2811,16 +2469,20 @@ hbtccli tx distribution withdraw-rewards hbcvaloper1mcfzdxltqmjfa8v5wrqrjjedqd8l
   ]
 }
 ```
-#### 从所有validator提取抵押收益
+#### To withdraw pledged rewards from all validators
+
 ```bash
 hbtccli tx distribution withdraw-all-rewards [flags]
 ```
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx distribution withdraw-all-rewards --from alice --gas-prices 1000000000000.0hbc
 ```
-##### 成功返回
+
+##### Success response
+
 ```json
 {
   "height": "0",
@@ -2870,27 +2532,28 @@ hbtccli tx distribution withdraw-all-rewards --from alice --gas-prices 100000000
 
 
 ### transfer 
-#### HBTC Chain系统内部转账 
+####  Internal transfers within HBTC Chain system 
 
 ```bash
-hbtccli tx transfer send [from] [to][amount][flags] 
+hbtccli tx transfer send [from] [to][amount][flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| from | string | 资产的所有者 |
-| to | string | 转入的托管单元地址 |
-| amount | string | 币种以及金额，多个资产是以逗号分隔。例如100hbc，2btc |
+##### Description of the parameters
 
+| Name   | Type   | Description                                                  |
+| ------ | ------ | ------------------------------------------------------------ |
+| from   | string | The owner of the asset                                       |
+| to     | string | The custodian unit address of being transferred to           |
+| amount | string | Token name and Amount, use comma to split multiple assets e.g. 100hbc, 2btc |
 
+##### Example
 
-##### 示例
 ```bash
 hbtccli tx transfer send alice  HBCjN2VxLCBMbFKafhjVa8auudMpTpmDgeE8  1000000000000000hbc --chain-id hbtc-testnet  --gas-prices 1000000000000.0hbc
 ```
 
-#### 成功返回
+#### Success response
+
 ```json
 {
   "height": "0",
@@ -2917,34 +2580,32 @@ hbtccli tx transfer send alice  HBCjN2VxLCBMbFKafhjVa8auudMpTpmDgeE8  1000000000
 }
 ```
 
-
-#### 将外链资产充值到HBTC Chain
+#### Deposit the external chain assets into the HBTC Chain
 
 ```bash
 hbtccli tx transfer deposit [from_key_or_address] [toCU_address] [to_address] [coin] [txhash] [index] [memo] [height] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| from_key_or_address | string | 充值的发起人，可以是toCU的所有者也可以是其他人 |
-| to_cu | string | 被充值的托管单元地址 |
-| to_address | string | 被充值的托管单元地址对应币种的外链(例如:btc eth)地址 |
-| amount | string | 币种以及金额 |
-| hash | string | 外链交易hash |
-| index | string | 外链交易索引，对于utxo类型资产, index 等于Vout中的index值;对于账户类型资产，index = 0 |
-| memo | string | 外链交易中附带的memo |
-| height | string | 外链交易发生的区块高度 |
+##### Description of parameters
 
+| Name                | Type   | Description                                                  |
+| ------------------- | ------ | ------------------------------------------------------------ |
+| from_key_or_address | string | The depositer can be the owner of the toCU or someone else   |
+| to_cu               | string | Address of the custodian unit to be deposited                |
+| to_address          | string | The external chain address (e.g. BTC/ETH) corresponds to the custodian unit address being deposited |
+| amount              | string | Token name and amount                                        |
+| hash                | string | External chain transaction hash                              |
+| index               | string | External chain transaction index, for utxo type assets, index is the index value in Vout; for account type assets, index = 0 |
+| memo                | string | The memo attached to external chain transaction              |
+| height              | string | The block height of external chain transaction               |
 
+##### Example
 
-
-##### 示例
 ```bash
 hbtccli tx transfer deposit alice $(hbtccli keys show -a bob) 0x6537f7fb0064aaa4b5b9f379d24133027155b727 10000000000000000eth 0x228409bb2999911b94f0513f101f3fcf212058b7af18c88c625b41ddf20a0c6b 0 memo 7505327 --chain-id hbtc-testnet --gas-prices 1000000000000.0hbc
 ```
 
-##### 成功返回
+##### Success response
 ```bash
 { 
 height: 0
@@ -2973,26 +2634,27 @@ events: []
 
 
 
+#### Withdraw assets to an external chain address
 
-#### 将资产提现到外链地址
 ```bash
 hbtccli tx transfer withdrawal [from_key_or_address] [to_address] [amount] [gas] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| from_key_or_address | string | 充值的发起人，可以是toCU的所有者也可以是其他人 |
-| to_address | string | 被充值的托管单元地址对应币种的外链(例如:btc eth)地址 |
-| amount | string | 币种以及金额 |
-| gas | string | 以外链币计价的手续费 |
+##### Description of parameters
 
+| Name                | Type   | Description of parameters                                    |
+| ------------------- | ------ | ------------------------------------------------------------ |
+| from_key_or_address | string | The depositer can be the owner of the toCU or someone else   |
+| to_address          | string | The external chain address (e.g. BTC/ETH) corresponds to the custodian unit address being deposited |
+| amount              | string | Token name and amount                                        |
+| gas                 | string | The gas fee in external chain tokens                         |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx transfer withdrawal --chain-id hbtc-testnet alice  0xc96d141c9110a8E61eD62caaD8A7c858dB15B82c  1200000000000000eth  1000000000000000 --gas-prices 1000000000000.0hbc
 ```
-##### 成功返回
+##### Success response
 ```json
 {
   "height": "0",
@@ -3021,26 +2683,30 @@ hbtccli tx transfer withdrawal --chain-id hbtc-testnet alice  0xc96d141c9110a8E6
 ```
 
 ### hrc20
-#### 一键发币
-在hbtc链上，用户缴纳了hrc20 参数中定义的发行费用(缺省为10000000000000000000000 * pow(10, -18)hbc)
+#### One-click coin issuance
+
+On the HBTC chain, the user pays the issuance fee defined in the HRC20 parameter (default is 10000000000000000000000 * POW(10, -18)HBC)
+
 ```bash
 hbtccli tx hrc20 new-token [to][symbol][decimals][totalSupply] [flags]
 ```
-##### 参数说明
+##### Description of parameters
 
-| 名称 | 类型  | 参数说明 | 
-| ------ | ------ | ------ |
-| to | string | 资产的所有者 |
-| symbol | string | 新发币种的名称，不能与token模块中已有币种名称和预留币种名称冲突 |
-| decimals | int | 精度，最小精度不能超过18位 |
-| totalSupply | int | 总发行量，以最小精度为单位 |
+| Name        | Type   | Description of parameters                                    |
+| ----------- | ------ | ------------------------------------------------------------ |
+| to          | string | Owner of the asset                                           |
+| symbol      | string | The name of the newly issued token, must not conflict with the name of the existing token and reserved token in the token module |
+| decimals    | int    | Precision, minimum precision must not exceed 18 bits         |
+| totalSupply | int    | Total supply, in minimum precision                           |
 
-##### 示例
+##### Example
+
 ```bash
 hbtccli tx hrc20 new-token $(hbtccli keys show -a alice) mytoken 18 10000000000000000000000000000 --from alice
 ```
 
-##### 成功返回
+##### Success response
+
 ```json
 {
   "height": "0",
@@ -3068,27 +2734,31 @@ hbtccli tx hrc20 new-token $(hbtccli keys show -a alice) mytoken 18 100000000000
 ```
 
 ### mapping
-#### 映射发行和兑换
-通过一个资产映射合约，用户可以抵押映射发行或者兑换发行token和目标token。
+#### Mapping Issuance and Exchange
+
+Through an asset mapping contract, users can pledge their mapped issuance or exchange their issued tokens and target tokens.
+
 ```bash
 hbtccli tx mapping swap [issue-symbol] [coins] [flags]
 ```
-##### 参数说明
 
-| 名称 | 类型 | 参数说明 | 
-| ------ | ------ | ------ |
-| issue-symbol | string | 资产映射合约的发行token |
-| coins | string | 需要兑换的coins，只能有一个coin，必须是发行token或者目标token |
+##### Description of parameters
 
-##### 示例
+| Name         | Type   | Description of parameters                                    |
+| ------------ | ------ | ------------------------------------------------------------ |
+| issue-symbol | string | Token issued by the asset mapping contract                   |
+| coins        | string | Coins that need to be exchanged, must be either the issued token or the targeted token |
+
+##### Example
+
 ```bash
-# 从cbtc映射合约里，抵押50btc，发行出50cbtc
+# From a CBTC mapping contract, collateralize 50 BTC, and issue 50 CBTC
 hbtccli tx mapping swap --chain-id hbtc-testnet cbtc 50btc --from alice
-# 从cbtc映射合约里，抵押50cbtc，兑换回50btc
+# From a CBTC mapping contract, collateralize 50 CBTC, exchange back to 50 BTC
 hbtccli tx mapping swap --chain-id hbtc-testnet cbtc 50cbtc --from alice
 ```
 
-##### 成功返回
+##### Success response
 ```json
 {
   "height":"322",
@@ -3166,149 +2836,26 @@ hbtccli tx mapping swap --chain-id hbtc-testnet cbtc 50cbtc --from alice
 }
 ```
 
-### openswap
-
-#### 增加流动性
-```bash
- hbtccli tx openswap add-liquidity [flags]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| token-a | string | 交易对的第一个币种 |
-| token-b | string | 交易对的第二个币种 |
-| token-a-amt | string | 第一个币种的数量 |
-| token-b-amt | string | 第二个币种的数量 |
-
-##### 示例
-```bash
-hbtccli tx openswap add-liquidity --token-a btc --token-b hbc --token-a-amt 300000000 --token-b-amt 300000000000 --from mykey --gas-prices 1000000000000.0hbc
-```
-
-#### 移除流动性
-```bash
- hbtccli tx openswap remove-liquidity [flags]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| token-a | string | 交易对的第一个币种 |
-| token-b | string | 交易对的第二个币种 |
-| liquidity | string | 移除的流动性数值 |
-
-##### 示例
-```bash
-hbtccli tx openswap remove-liquidity --token-a btc --token-b hbc --liquidity 547720 --from mykey --gas-prices 1000000000000.0hbc
-```
-
-#### 用固定数量的代币兑换另一种代币
-```bash
- hbtccli tx openswap exact-in [flags]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| amt-in | string | 花费的代币数量 |
-| min-amt-out | string | 期望获得的最小代币数量 |
-| path | string | 兑换路径 |
-
-##### 示例
-```bash
-hbtccli tx openswap exact-in --amt-in 5000000 --path btc,hbc --min-amt-out 1 --from mykey --gas-prices 1000000000000.0hbc
-```
-
-#### 用未知数量的代币兑换固定数量的另一种代币
-```bash
- hbtccli tx openswap exact-out [flags]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| max-amt-in | string | 期望花费的最大代币数量 |
-| amt-out | string | 获得的代币数量 |
-| path | string | 兑换路径 |
-
-##### 示例
-```bash
-hbtccli tx openswap exact-out --max-amt-in 5000000 --path btc,hbc --amt-out 1 --from mykey --gas-prices 1000000000000.0hbc
-```
-
-#### 创建限价订单
-```bash
- hbtccli tx openswap limit [flags]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 | 备注 |
-| ------ | ------ | ------ |------ |
-| base-symbol | string | 基础币种 |base-symbol 为交易对中按字符排序较小的币种，如 btc-hbc 交易对，btc 的字符排序小，所以 base-symbol 为 btc|
-| quote-symbol | string | 竞价币种 |quote-symbol 为交易对中按字符排序较大的币种，如 btc-hbc 交易对，hbc 的字符排序大，所以 quote-symbol 为 hbc|
-| side | int | 方向，0-买；1-卖 ||
-| amt-in | string | 花费的代币数量 | 当为买单时（side为0），amt-in 为 quote-symbol 的数量；当为卖单时（side为1），amt-in 为 base-symbol 的数量； |
-| price | string | 兑换价格 | price 为兑换 1 个 base-symbol 所需的 quote-symbol 数量，要按照币种的最小精度计算 |
-
-
-##### 示例
-```bash
-hbtccli tx openswap limit --base-symbol btc --quote-symbol hbc --price 1 --amt-in 340000 --side 0 --from mykey --gas-prices 1000000000000.0hbc
-```
-
-#### 取消限价订单
-```bash
- hbtccli tx openswap cancel [order-ids]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| order-ids | string | 批量取消的订单号，若有多个订单号，需要用逗号连接|
-
-##### 示例
-```bash
-hbtccli tx openswap cancel 99466110-708d-47b4-8276-390bf115d675,27eca534-7cd8-4c78-abec-823ffff78afb --from mykey --gas-prices 1000000000000.0hbc
-```
-
-#### 领取某交易对的流动性奖励
-```bash
- hbtccli tx openswap claim [flags]
-```
-##### 参数说明
-
-| 名称 | 类型 | 参数说明 |
-| ------ | ------ | ------ |
-| token-a | string | 交易对的第一个币种 |
-| token-b | string | 交易对的第二个币种 |
-
-##### 示例
-```bash
-hbtccli tx openswap claim --token-a btc --token-b hbc --from mykey --gas-prices 1000000000000.0hbc
-```
-
-
 ## rest-server
-从本地启动一个rest server
+Start a local rest server
 
 ```bash
-hbtccli rest-server [flags] 
+hbtccli rest-server [flags]
 ```
 
-| 名称 | 类型  | flag说明 | 
-| ------ | ------ | ------ |
-| laddr string | string | rest server监听地址，(default "tcp://localhost:1317") |
-| max-open | uint | 最大连接数 |
-| node | string | 链节点地址<host>:<port>，(default "tcp://localhost:26657") |
-| trust-node | string | 信任连接的节点 |
+| Name         | Type   | flag desc                                                    |
+| ------------ | ------ | ------------------------------------------------------------ |
+| laddr string | string | The listening address of rest server，(default "tcp://localhost:1317") |
+| max-open     | uint   | Max connections                                              |
+| node         | string | Node IP and port<host>:<port>，(default "tcp://localhost:26657") |
+| trust-node   | string | Trusted connection node                                      |
 
+### Example
 
-### 示例
 ```bash
 hbtccli rest-server --home node0/hbtccli --chain-id hbtc-testnet --node tcp://127.0.0.1:26657 --trust-node true 
 ```
-### 正常返回
+### Success response
 ```
 I[2020-03-14|09:18:04.726] Starting application REST service (chain-id: "hbtc-testnet")... module=rest-server
 I[2020-03-14|09:18:04.727] Starting RPC HTTP server on 127.0.0.1:1317   module=rest-server
@@ -3316,27 +2863,29 @@ I[2020-03-14|09:18:04.727] Starting RPC HTTP server on 127.0.0.1:1317   module=r
 
 ## keys
 
-本地密钥库主要包含以下指令：
-* `hbtccli keys add`     [新增密钥](#新增) (#列表)
-* `hbtccli keys list`    [显示密钥列表](#列表)
-* `hbtccli keys update`  [更新密钥保存密码](#更新)
-* `hbtccli keys delete`  [从密钥库删除密钥](#删除)
-* `hbtccli keys import`  [导入密钥](#导入)
-* `hbtccli keys export`  [导出密钥](#导出)
+> The local private key is mainly composed of the following commands:
+>
+> * `hbtccli keys add`     [Add a new key](#add) (#list)
+> * `hbtccli keys list`    [List all keys](#list)
+> * `hbtccli keys update`  [Update private key](#update)
+> * `hbtccli keys delete`  [Delete a private key](#delete)
+> * `hbtccli keys import`  [Import private key(s)](#import)
+> * `hbtccli keys export`  [Export private key(s)](#export)
+>
+> > The private key is stored locally in the default location: $HOME/.hbtccli/keys/. Deleting the storage file will empty the local storage of all private keys. The operation of the private key through the `keys` related commands does not affect the account status in the QOS network, please keep the account private key information properly.
 
-> 密钥库为本地存储，默认存储位置为：$HOME/.hbtccli/keys/，删除存储文件会清空本地存储所有私钥。通过`keys`相关指令操作密钥不影响QOS网络中账户状态，请妥善保管账户私钥信息。
-
-#### 新增
+### add
 
 `hbtccli keys add <key_name>`
 
-<key_name>可随意填写，仅作为本地密钥库密钥区分。
+<key_name>can be whatever you want, as a local private key for distinguishing only .
 
-如下指令将生成一个名字为`Alice`的密钥到本地密钥库：
+The following command will generate a private key with the name `Alice' into the local private key database:
+
 ```bash
 $ hbtccli keys add Alice
-Enter a passphrase to encrypt your key to disk:<输入密码>
-Repeat the passphrase:<重复上面输入的密码>
+Enter a passphrase to encrypt your key to disk:<Enter a passphrase>
+Repeat the passphrase:<Repeat the passphrase>
 NAME:	TYPE:	ADDRESS:						PUBKEY:
 - name: alice
   type: local
@@ -3352,9 +2901,9 @@ It is the only way to recover your CU if you ever forget your password.
 
 rare nuclear foster thunder wonder core section file utility service quiz correct lion frost piano split aisle weather depth main trumpet lobster fire connect
 ```
-其中`HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg`为适用于QOS网络的账户地址，`hbcpub1addwnpepqwkg5c0dvfpz9guv3hegastumkre8e5lh2fvw6kgxhq74vxd97am6kmsnf0`为账户公钥信息，`rare nuclear foster thunder wonder core section file utility service quiz correct lion frost piano split aisle weather depth main trumpet lobster fire connect`为助记词，可用于账户私钥找回，请妥善保管助记词。
+`HBCgS6KSUhmudwbh88tRynzVu86fFghFA6Pg`is the account address that applies to the QOS network, `hbcpub1addwnpepqwkg5c0dvfpz9guv3hegastumkre8e5lh2fvw6kgxhq74vxd97am6kmsnf0` is an account public key information, `rare nuclear foster thunder wonder core section file utility service quiz correct lion frost piano split aisle weather depth main trumpet lobster fire connect`  are mnemonics that can be used for the private key recovery of an account, please keep them safe.
 
-#### 列表
+#### List
 
 `hbtccli keys list`
 ```bash
@@ -3388,28 +2937,29 @@ $ hbtccli keys list
 ]
 ```
 
-#### 更新
+#### 更update
 
 `hbtccli keys update <key_name>`
 
-更新`Alice`存储密码：
+Update `Alice`'s passphrase:
 ```bash
-$ hbtccli keys update Alice
-Enter the current passphrase:<输入当前密码>
-Enter the new passphrase:<输入新密码>
-Repeat the new passphrase:<重复新密码>
+hbtccli keys update Alice
+Enter the current passphrase:<Enter the current passphrase>
+Enter the new passphrase:<Enter the new passphrase>
+Repeat the new passphrase:<Repeat the new passphrase>
 Password successfully updated!
 ```
 
-#### 导出
+#### Export
 
 `hbtccli keys export <key_name>`
 
-导出`Alice`密钥信息：
+Export `Alice`'s private key:
+
 ```bash
 hbtccli keys export Alice
-Enter passphrase to decrypt your key:<输入当前密码>
-Enter passphrase to encrypt the exported key:<输入密码>
+Enter passphrase to decrypt your key:<enter current password>
+Enter passphrase to encrypt the exported key:enter your password>
 -----BEGIN TENDERMINT PRIVATE KEY-----
 salt: A6528A0F9D47D2A8E949037D27A4BDD8
 kdf: bcrypt
@@ -3420,41 +2970,44 @@ kdf: bcrypt
 -----END TENDERMINT PRIVATE KEY-----
 ```
 
-#### 删除
+#### Delete
 
 `hbtccli keys delete <key_name>`
 
-删除`Alice`密钥信息：
+Delete the private key info of `Alice`:
 ```bash
 $ hbtccli keys delete alice
-DANGER - enter password to permanently delete key:<输入密码>
+DANGER - enter password to permanently delete key:<enter password>
 Key deleted forever (uh oh!)
 ```
 
-#### 导入
+#### Import
 
-`hbtccli keys import Alice --file <私钥文件路径>`
+`hbtccli keys import Alice --file <private key file path>`
 
-把上面通过`export`导出的私钥存为alice.pri文件：
+Save the above private key exported through `export' as Alice.pri:
 ```bash
 hbtccli keys import alice ./alice.pri 
-Enter passphrase to decrypt your key:<输入密码>
+Enter passphrase to decrypt your key:<enter password>
 ```
 ## version
-显示version信息
+Show version info
 
-##### 示例
+### Example
 
-##### 成功返回
+#### Success response
 
 ## help
-显示help信息
+Show help information
 
-##### 示例
+### Example
+
 ```bash
 hbtccli help
 ```
-##### 成功返回
+
+#### Success response
+
 ```bash
 Command line interface for interacting with hbtc chain
 

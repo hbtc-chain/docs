@@ -1,26 +1,4 @@
 # HBTCChain API
-## HBTCChain API v1.0
-
-> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
-
-A REST interface for state queries, transaction generation and broadcasting.
-
-## Transactions
-
-Search, encode, or broadcast transactions.
-
-### get__txs_{hash}
-
-`GET /txs/{hash}`
-
-*Get a Tx by hash*
-
-Retrieve a transaction using its hash.
-
-<h3 id="get__txs_{hash}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
 |hash|path|string|true|Tx hash|
 
 > Example responses
@@ -37,7 +15,12 @@ Retrieve a transaction using its hash.
     ],
     "fee": {
       "gas": "string",
-      "amount": []
+      "amount": [
+        {
+          "denom": "stake",
+          "amount": "50"
+        }
+      ]
     },
     "memo": "string",
     "signature": {
@@ -93,7 +76,12 @@ Broadcast a signed tx to a full node
     ],
     "fee": {
       "gas": "string",
-      "amount": []
+      "amount": [
+        {
+          "denom": "stake",
+          "amount": "50"
+        }
+      ]
     },
     "memo": "string",
     "signature": {
@@ -119,17 +107,18 @@ Broadcast a signed tx to a full node
 |»» msg|body|[[Msg](#schemamsg)]|false|none|
 |»» fee|body|object|false|none|
 |»»» gas|body|string|false|none|
-|»»» amount|body|array|false|none|
-|»»»» *anonymous*|body|any|false|none|
-|»» memo|body|string|false|none|
-|»» signature|body|object|false|none|
-|»»» signature|body|string|false|none|
-|»»» pub_key|body|object|false|none|
-|»»»» type|body|string|false|none|
-|»»»» value|body|string|false|none|
-|»»» account_number|body|string|false|none|
-|»»» sequence|body|string|false|none|
-|» mode|body|string|false|none|
+|»»» amount|body|[[Coin](#schemacoin)]|false|none|
+|»»»» denom|body|string|false|none|
+|»»»» amount|body|string|false|none|
+|»»» memo|body|string|false|none|
+|»»» signature|body|object|false|none|
+|»»»» signature|body|string|false|none|
+|»»»» pub_key|body|object|false|none|
+|»»»»» type|body|string|false|none|
+|»»»»» value|body|string|false|none|
+|»»»» account_number|body|string|false|none|
+|»»»» sequence|body|string|false|none|
+|»»» mode|body|string|false|none|
 
 > Example responses
 
@@ -195,7 +184,12 @@ Encode a transaction (signed or not) from JSON to base64-encoded Amino serialize
     ],
     "fee": {
       "gas": "string",
-      "amount": []
+      "amount": [
+        {
+          "denom": "stake",
+          "amount": "50"
+        }
+      ]
     },
     "memo": "string",
     "signature": {
@@ -220,16 +214,17 @@ Encode a transaction (signed or not) from JSON to base64-encoded Amino serialize
 |»» msg|body|[[Msg](#schemamsg)]|false|none|
 |»» fee|body|object|false|none|
 |»»» gas|body|string|false|none|
-|»»» amount|body|array|false|none|
-|»»»» *anonymous*|body|any|false|none|
-|»» memo|body|string|false|none|
-|»» signature|body|object|false|none|
-|»»» signature|body|string|false|none|
-|»»» pub_key|body|object|false|none|
-|»»»» type|body|string|false|none|
-|»»»» value|body|string|false|none|
-|»»» account_number|body|string|false|none|
-|»»» sequence|body|string|false|none|
+|»»» amount|body|[[Coin](#schemacoin)]|false|none|
+|»»»» denom|body|string|false|none|
+|»»»» amount|body|string|false|none|
+|»»» memo|body|string|false|none|
+|»»» signature|body|object|false|none|
+|»»»» signature|body|string|false|none|
+|»»»» pub_key|body|object|false|none|
+|»»»»» type|body|string|false|none|
+|»»»»» value|body|string|false|none|
+|»»»» account_number|body|string|false|none|
+|»»»» sequence|body|string|false|none|
 
 > Example responses
 
@@ -261,7 +256,7 @@ Status Code **200**
 This operation does not require authentication
 </aside>
 
-## Tendermint RPC
+### Tendermint RPC
 
 Tendermint APIs, such as query blocks, transactions and validatorset
 
@@ -745,7 +740,7 @@ Status Code **200**
 This operation does not require authentication
 </aside>
 
-## Cu
+### Cu
 
 Custodian unit module APIs
 
@@ -769,27 +764,14 @@ Custodian unit module APIs
 {
   "type": "string",
   "value": {
-    "cu_type": "string",
+    "account_number": "string",
     "address": "string",
-    "migration_status": "string",
-    "asset_pubkey": "string",
-    "asset_pubkey_epoch": "string",
-    "assets": [
+    "coins": [
       {
-        "address": 5.8306492960253865e+47,
-        "denom": "eth",
-        "enable_sendtx": true,
-        "epoch": 1,
-        "gas_remained": 0,
-        "nonce": 0
+        "denom": "stake",
+        "amount": "50"
       }
     ],
-    "asset_coins_hold": [],
-    "asset_coins": [],
-    "coins_hold": [],
-    "coins": [],
-    "gas_received": [],
-    "gas_used": [],
     "public_key": {
       "type": "string",
       "value": "string"
@@ -814,30 +796,11 @@ Status Code **200**
 |---|---|---|---|---|
 |» type|string|false|none|none|
 |» value|object|false|none|none|
-|»» cu_type|string|false|none|none|
+|»» account_number|string|false|none|none|
 |»» address|string|false|none|none|
-|»» migration_status|string|false|none|none|
-|»» asset_pubkey|string|false|none|none|
-|»» asset_pubkey_epoch|string|false|none|none|
-|»» assets|[[Asset](#schemaasset)]|false|none|none|
-|»»» address|string|false|none|none|
+|»» coins|[[Coin](#schemacoin)]|false|none|none|
 |»»» denom|string|false|none|none|
-|»»» enable_sendtx|boolean|false|none|none|
-|»»» epoch|string|false|none|none|
-|»»» gas_remained|string|false|none|none|
-|»»» nonce|string|false|none|none|
-|»» asset_coins_hold|array|false|none|none|
-|»»» *anonymous*|any|false|none|none|
-|»» asset_coins|array|false|none|none|
-|»»» *anonymous*|any|false|none|none|
-|»» coins_hold|array|false|none|none|
-|»»» *anonymous*|any|false|none|none|
-|»» coins|array|false|none|none|
-|»»» *anonymous*|any|false|none|none|
-|»» gas_received|array|false|none|none|
-|»»» *anonymous*|any|false|none|none|
-|»» gas_used|array|false|none|none|
-|»»» *anonymous*|any|false|none|none|
+|»»» amount|string|false|none|none|
 |»» public_key|[PublicKey](#schemapublickey)|false|none|none|
 |»»» type|string|false|none|none|
 |»»» value|string|false|none|none|
@@ -847,70 +810,7 @@ Status Code **200**
 This operation does not require authentication
 </aside>
 
-### get__cu_pending_deposit_{address}
-
-`GET /cu/pending_deposit/{address}`
-
-*Get the custodian unit pending deposit list*
-
-<h3 id="get__cu_pending_deposit_{address}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|address|path|string|true|Account address|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "property1": {
-    "hash": "string",
-    "index": "string",
-    "ext_address": "string",
-    "amount": "string",
-    "memo": "string",
-    "status": 0
-  },
-  "property2": {
-    "hash": "string",
-    "index": "string",
-    "ext_address": "string",
-    "amount": "string",
-    "memo": "string",
-    "status": 0
-  }
-}
-```
-
-<h3 id="get__cu_pending_deposit_{address}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|pending deposit list of address|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|invalid address|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server internel error|None|
-
-<h3 id="get__cu_pending_deposit_{address}-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» **additionalProperties**|object|false|none|none|
-|»» hash|string|false|none|none|
-|»» index|string|false|none|none|
-|»» ext_address|string|false|none|none|
-|»» amount|string|false|none|none|
-|»» memo|string|false|none|none|
-|»» status|number|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## Staking
+### Staking
 
 Stake module APIs
 
@@ -1127,7 +1027,7 @@ This operation does not require authentication
     "validator_src_address": "string",
     "validator_dst_address": "string",
     "entries": [
-      {}
+      null
     ]
   }
 ]
@@ -1178,9 +1078,6 @@ This operation does not require authentication
     "operator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
     "consensus_pubkey": "hbcvalconspub1zcjduepq6f9zhhlwne7gkx0yrpg3ff3xe4yl6eu977mjjexlf5jjspjq26zqmyekwd",
     "jailed": true,
-    "is_key_node": true,
-    "min_self_delegation": "string",
-    "last_key_node_heartbeat_height": "string",
     "status": 0,
     "tokens": "string",
     "delegator_shares": "string",
@@ -1222,9 +1119,6 @@ Status Code **200**
 |» operator_address|[ValidatorAddress](#schemavalidatoraddress)|false|none|bech32 encoded address|
 |» consensus_pubkey|string|false|none|none|
 |» jailed|boolean|false|none|none|
-|» is_key_node|boolean|false|none|none|
-|» min_self_delegation|string|false|none|none|
-|» last_key_node_heartbeat_height|string|false|none|none|
 |» status|integer|false|none|none|
 |» tokens|string|false|none|none|
 |» delegator_shares|string|false|none|none|
@@ -1269,9 +1163,6 @@ This operation does not require authentication
   "operator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
   "consensus_pubkey": "hbcvalconspub1zcjduepq6f9zhhlwne7gkx0yrpg3ff3xe4yl6eu977mjjexlf5jjspjq26zqmyekwd",
   "jailed": true,
-  "is_key_node": true,
-  "min_self_delegation": "string",
-  "last_key_node_heartbeat_height": "string",
   "status": 0,
   "tokens": "string",
   "delegator_shares": "string",
@@ -1330,9 +1221,6 @@ This operation does not require authentication
     "operator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
     "consensus_pubkey": "hbcvalconspub1zcjduepq6f9zhhlwne7gkx0yrpg3ff3xe4yl6eu977mjjexlf5jjspjq26zqmyekwd",
     "jailed": true,
-    "is_key_node": true,
-    "min_self_delegation": "string",
-    "last_key_node_heartbeat_height": "string",
     "status": 0,
     "tokens": "string",
     "delegator_shares": "string",
@@ -1373,9 +1261,6 @@ Status Code **200**
 |» operator_address|[ValidatorAddress](#schemavalidatoraddress)|false|none|bech32 encoded address|
 |» consensus_pubkey|string|false|none|none|
 |» jailed|boolean|false|none|none|
-|» is_key_node|boolean|false|none|none|
-|» min_self_delegation|string|false|none|none|
-|» last_key_node_heartbeat_height|string|false|none|none|
 |» status|integer|false|none|none|
 |» tokens|string|false|none|none|
 |» delegator_shares|string|false|none|none|
@@ -1419,9 +1304,6 @@ This operation does not require authentication
   "operator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
   "consensus_pubkey": "hbcvalconspub1zcjduepq6f9zhhlwne7gkx0yrpg3ff3xe4yl6eu977mjjexlf5jjspjq26zqmyekwd",
   "jailed": true,
-  "is_key_node": true,
-  "min_self_delegation": "string",
-  "last_key_node_heartbeat_height": "string",
   "status": 0,
   "tokens": "string",
   "delegator_shares": "string",
@@ -1619,15 +1501,12 @@ This operation does not require authentication
 
 ```json
 {
-  "max_entries": "string",
-  "election_period": "string",
-  "min_validator_delegation": "string",
-  "min_key_node_delegation": "string",
-  "max_key_node_heartbeat_interval": "string",
-  "max_candidate_key_node_heartbeat_interval": "string",
+  "inflation_rate_change": "string",
+  "inflation_max": "string",
+  "inflation_min": "string",
+  "goal_bonded": "string",
   "unbonding_time": "string",
   "max_validators": 0,
-  "max_key_nodes": 0,
   "bond_denom": "string"
 }
 ```
@@ -1645,22 +1524,19 @@ Status Code **200**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» max_entries|string|false|none|none|
-|» election_period|string|false|none|none|
-|» min_validator_delegation|string|false|none|none|
-|» min_key_node_delegation|string|false|none|none|
-|» max_key_node_heartbeat_interval|string|false|none|none|
-|» max_candidate_key_node_heartbeat_interval|string|false|none|none|
+|» inflation_rate_change|string|false|none|none|
+|» inflation_max|string|false|none|none|
+|» inflation_min|string|false|none|none|
+|» goal_bonded|string|false|none|none|
 |» unbonding_time|string|false|none|none|
 |» max_validators|integer|false|none|none|
-|» max_key_nodes|integer|false|none|none|
 |» bond_denom|string|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## Governance
+### Governance
 
 Governance module APIs
 
@@ -1699,7 +1575,12 @@ Query proposals information with parameters
       "no_with_veto": "0.0000000000"
     },
     "submit_time": "string",
-    "total_deposit": [],
+    "total_deposit": [
+      {
+        "denom": "stake",
+        "amount": "50"
+      }
+    ],
     "voting_start_time": "string"
   }
 ]
@@ -1731,9 +1612,128 @@ Status Code **200**
 |»» no|string|false|none|none|
 |»» no_with_veto|string|false|none|none|
 |» submit_time|string|false|none|none|
-|» total_deposit|array|false|none|none|
-|»» *anonymous*|any|false|none|none|
+|» total_deposit|[[Coin](#schemacoin)]|false|none|none|
+|»» denom|string|false|none|none|
+|»» amount|string|false|none|none|
 |» voting_start_time|string|false|none|none|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+### post__gov_proposals_param_change
+
+`POST /gov/proposals/param_change`
+
+*Generate a parameter change proposal transaction*
+
+Generate a parameter change proposal transaction
+
+> Body parameter
+
+```json
+{
+  "base_req": {
+    "from": "HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa",
+    "memo": "Sent via hbtcchain 🚀",
+    "chain_id": "hbtc-testnet",
+    "account_number": "0",
+    "sequence": "1",
+    "gas": "200000",
+    "gas_adjustment": "1.2",
+    "fees": [
+      {
+        "denom": "stake",
+        "amount": "50"
+      }
+    ],
+    "simulate": false
+  },
+  "title": "Param Change",
+  "description": "Update max validators",
+  "proposer": "HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa",
+  "deposit": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
+  "changes": [
+    {
+      "subspace": "staking",
+      "key": "MaxValidators",
+      "subkey": "",
+      "value": {}
+    }
+  ]
+}
+```
+
+<h3 id="post__gov_proposals_param_change-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|true|none|
+|» base_req|body|[BaseReq](#schemabasereq)|false|none|
+|»» from|body|string|false|Sender address or Keybase name to generate a transaction|
+|»» memo|body|string|false|none|
+|»» chain_id|body|string|false|none|
+|»» account_number|body|string|false|none|
+|»» sequence|body|string|false|none|
+|»» gas|body|string|false|none|
+|»» gas_adjustment|body|string|false|none|
+|»» fees|body|[[Coin](#schemacoin)]|false|none|
+|»»» denom|body|string|false|none|
+|»»» amount|body|string|false|none|
+|»» simulate|body|boolean|false|Estimate gas for a transaction (cannot be used in conjunction with generate_only)|
+|» title|body|string|false|none|
+|» description|body|string|false|none|
+|» proposer|body|[Address](#schemaaddress)|false|base58 encoded address|
+|» deposit|body|[[Coin](#schemacoin)]|false|none|
+|» changes|body|[[ParamChange](#schemaparamchange)]|false|none|
+|»» subspace|body|string|false|none|
+|»» key|body|string|false|none|
+|»» subkey|body|string|false|none|
+|»» value|body|object|false|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "msg": [
+    "string"
+  ],
+  "fee": {
+    "gas": "string",
+    "amount": [
+      {
+        "denom": "stake",
+        "amount": "50"
+      }
+    ]
+  },
+  "memo": "string",
+  "signature": {
+    "signature": "MEUCIQD02fsDPra8MtbRsyB1w7bqTM55Wu138zQbFcWx4+CFyAIge5WNPfKIuvzBZ69MyqHsqD8S1IwiEp+iUb6VSdtlpgY=",
+    "pub_key": {
+      "type": "tendermint/PubKeySecp256k1",
+      "value": "Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH"
+    },
+    "account_number": "0",
+    "sequence": "0"
+  }
+}
+```
+
+<h3 id="post__gov_proposals_param_change-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|The transaction was succesfully generated|[StdTx](#schemastdtx)|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid proposal body|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
 
 <aside class="success">
 This operation does not require authentication
@@ -1771,7 +1771,12 @@ Query a proposal by id
     "no_with_veto": "0.0000000000"
   },
   "submit_time": "string",
-  "total_deposit": [],
+  "total_deposit": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
   "voting_start_time": "string"
 }
 ```
@@ -1846,7 +1851,12 @@ Query deposits by proposalId
 ```json
 [
   {
-    "amount": [],
+    "amount": [
+      {
+        "denom": "stake",
+        "amount": "50"
+      }
+    ],
     "proposal_id": "string",
     "depositor": "HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa"
   }
@@ -1868,8 +1878,9 @@ Status Code **200**
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |*anonymous*|[[Deposit](#schemadeposit)]|false|none|none|
-|» amount|array|false|none|none|
-|»» *anonymous*|any|false|none|none|
+|» amount|[[Coin](#schemacoin)]|false|none|none|
+|»» denom|string|false|none|none|
+|»» amount|string|false|none|none|
 |» proposal_id|string|false|none|none|
 |» depositor|[Address](#schemaaddress)|false|none|base58 encoded address|
 
@@ -1898,7 +1909,12 @@ Query deposit by proposalId and depositor address
 
 ```json
 {
-  "amount": [],
+  "amount": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
   "proposal_id": "string",
   "depositor": "HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa"
 }
@@ -2061,7 +2077,12 @@ Query governance deposit parameters. The max_deposit_period units are in nanosec
 
 ```json
 {
-  "min_deposit": [],
+  "min_deposit": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
   "max_deposit_period": "86400000000000"
 }
 ```
@@ -2081,8 +2102,9 @@ Status Code **200**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» min_deposit|array|false|none|none|
-|»» *anonymous*|any|false|none|none|
+|» min_deposit|[[Coin](#schemacoin)]|false|none|none|
+|»» denom|string|false|none|none|
+|»» amount|string|false|none|none|
 |» max_deposit_period|string|false|none|none|
 
 <aside class="success">
@@ -2171,7 +2193,7 @@ Status Code **200**
 This operation does not require authentication
 </aside>
 
-## Distribution
+### Distribution
 
 Fee distribution module APIs
 
@@ -2198,10 +2220,20 @@ Get the sum of all the rewards earned by delegations by a single delegator
   "rewards": [
     {
       "validator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
-      "reward": []
+      "reward": [
+        {
+          "denom": "stake",
+          "amount": "50"
+        }
+      ]
     }
   ],
-  "total": []
+  "total": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ]
 }
 ```
 
@@ -2237,7 +2269,12 @@ Query a single delegation reward by a delegator
 > 200 Response
 
 ```json
-[]
+[
+  {
+    "denom": "stake",
+    "amount": "50"
+  }
+]
 ```
 
 <h3 id="get__distribution_delegators_{delegatoraddr}_rewards_{validatoraddr}-responses">Responses</h3>
@@ -2254,7 +2291,9 @@ Status Code **200**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» *anonymous*|any|false|none|none|
+|*anonymous*|[[Coin](#schemacoin)]|false|none|none|
+|» denom|string|false|none|none|
+|» amount|string|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
@@ -2315,8 +2354,18 @@ Query the distribution information of a single validator
 ```json
 {
   "operator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
-  "self_bond_rewards": [],
-  "val_commission": []
+  "self_bond_rewards": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
+  "val_commission": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ]
 }
 ```
 
@@ -2349,7 +2398,12 @@ This operation does not require authentication
 > 200 Response
 
 ```json
-[]
+[
+  {
+    "denom": "stake",
+    "amount": "50"
+  }
+]
 ```
 
 <h3 id="get__distribution_validators_{validatoraddr}_outstanding_rewards-responses">Responses</h3>
@@ -2365,7 +2419,9 @@ Status Code **200**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» *anonymous*|any|false|none|none|
+|*anonymous*|[[Coin](#schemacoin)]|false|none|none|
+|» denom|string|false|none|none|
+|» amount|string|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
@@ -2390,7 +2446,12 @@ Query the commission and self-delegation rewards of validator.
 > 200 Response
 
 ```json
-[]
+[
+  {
+    "denom": "stake",
+    "amount": "50"
+  }
+]
 ```
 
 <h3 id="get__distribution_validators_{validatoraddr}_rewards-responses">Responses</h3>
@@ -2407,7 +2468,9 @@ Status Code **200**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» *anonymous*|any|false|none|none|
+|*anonymous*|[[Coin](#schemacoin)]|false|none|none|
+|» denom|string|false|none|none|
+|» amount|string|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
@@ -2424,7 +2487,12 @@ This operation does not require authentication
 > 200 Response
 
 ```json
-[]
+[
+  {
+    "denom": "stake",
+    "amount": "50"
+  }
+]
 ```
 
 <h3 id="get__distribution_community_pool-responses">Responses</h3>
@@ -2440,7 +2508,9 @@ Status Code **200**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» *anonymous*|any|false|none|none|
+|*anonymous*|[[Coin](#schemacoin)]|false|none|none|
+|» denom|string|false|none|none|
+|» amount|string|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
@@ -2485,7 +2555,7 @@ Status Code **200**
 This operation does not require authentication
 </aside>
 
-## Supply
+### Supply
 
 Supply module APIs
 
@@ -2501,7 +2571,12 @@ Supply module APIs
 
 ```json
 {
-  "total": []
+  "total": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ]
 }
 ```
 
@@ -2548,66 +2623,7 @@ This operation does not require authentication
 This operation does not require authentication
 </aside>
 
-### get__supply_burned
-
-`GET /supply/burned`
-
-*Amount of burned coins in the chain*
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "total": []
-}
-```
-
-<h3 id="get__supply_burned-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Supply](#schemasupply)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__supply_burned_{denomination}
-
-`GET /supply/burned/{denomination}`
-
-*Burned amount of a single coin denomination*
-
-<h3 id="get__supply_burned_{denomination}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|denomination|path|string|true|Coin denomination|
-
-> Example responses
-
-> 200 Response
-
-```json
-"string"
-```
-
-<h3 id="get__supply_burned_{denomination}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|string|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid coin denomination|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## Slashing
+### Slashing
 
 Slashing module APIs
 
@@ -2712,7 +2728,7 @@ Status Code **200**
 This operation does not require authentication
 </aside>
 
-## Mint
+### Mint
 
 Minting module APIs
 
@@ -2729,8 +2745,11 @@ Minting module APIs
 ```json
 {
   "mint_denom": "string",
-  "inflation": "string",
-  "mint_per_block": "string"
+  "inflation_rate_change": "string",
+  "inflation_max": "string",
+  "inflation_min": "string",
+  "goal_bonded": "string",
+  "blocks_per_year": "string"
 }
 ```
 
@@ -2748,65 +2767,67 @@ Status Code **200**
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» mint_denom|string|false|none|none|
-|» inflation|string|false|none|none|
-|» mint_per_block|string|false|none|none|
+|» inflation_rate_change|string|false|none|none|
+|» inflation_max|string|false|none|none|
+|» inflation_min|string|false|none|none|
+|» goal_bonded|string|false|none|none|
+|» blocks_per_year|string|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## Misc
+### get__minting_inflation
 
-Miscellaneous APIs
+`GET /minting/inflation`
 
-### get__gas_price
-
-`GET /gas_price`
-
-*Suggest a gas price*
-
-Suggest for a reasonable gas price from the last [count] blocks
-
-<h3 id="get__gas_price-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|count|query|number|false|How many block to consider for suggesting gas price. Default to 12|
+*Current minting inflation value*
 
 > Example responses
 
 > 200 Response
 
 ```json
-[
-  {
-    "denom": "string",
-    "amount": "string"
-  }
-]
+"string"
 ```
 
-<h3 id="get__gas_price-responses">Responses</h3>
+<h3 id="get__minting_inflation-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|The suggested gas price|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid count|None|
-
-<h3 id="get__gas_price-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» denom|string|false|none|none|
-|» amount|string|false|none|none|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|string|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## Token
+### get__minting_annual-provisions
+
+`GET /minting/annual-provisions`
+
+*Current minting annual provisions value*
+
+> Example responses
+
+> 200 Response
+
+```json
+"string"
+```
+
+<h3 id="get__minting_annual-provisions-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|string|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+### Token
 
 Token module APIs
 
@@ -2843,14 +2864,12 @@ Token module APIs
     "deposit_threshold": "0",
     "open_fee": "1000000000000000000",
     "sys_open_fee": "1000000000000000000",
-    "withdrawal_fee_rate": "2.0",
+    "withdrawal_fee": "0",
     "max_op_cu_number": "3",
-    "sys_transfer_num": "0",
-    "op_cu_sys_transfer_num": "0",
+    "systransfer_amount": "0",
+    "op_cu_systransfer_amount": "0",
     "gas_limit": "1000000",
-    "gas_price": "1",
-    "confirmations": "1",
-    "is_nonce_based": false
+    "gas_price": "1"
   }
 }
 ```
@@ -2884,14 +2903,12 @@ Status Code **200**
 |»» deposit_threshold|string|false|none|none|
 |»» open_fee|string|false|none|none|
 |»» sys_open_fee|string|false|none|none|
-|»» withdrawal_fee_rate|string|false|none|none|
+|»» withdrawal_fee|string|false|none|none|
 |»» max_op_cu_number|string|false|none|none|
-|»» sys_transfer_num|string|false|none|none|
-|»» op_cu_sys_transfer_num|string|false|none|none|
+|»» systransfer_amount|string|false|none|none|
+|»» op_cu_systransfer_amount|string|false|none|none|
 |»» gas_limit|string|false|none|none|
 |»» gas_price|string|false|none|none|
-|»» confirmations|string|false|none|none|
-|»» is_nonce_based|boolean|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
@@ -2923,14 +2940,12 @@ This operation does not require authentication
     "deposit_threshold": "0",
     "open_fee": "1000000000000000000",
     "sys_open_fee": "1000000000000000000",
-    "withdrawal_fee_rate": "2.0",
+    "withdrawal_fee": "0",
     "max_op_cu_number": "3",
-    "sys_transfer_num": "0",
-    "op_cu_sys_transfer_num": "0",
+    "systransfer_amount": "0",
+    "op_cu_systransfer_amount": "0",
     "gas_limit": "1000000",
-    "gas_price": "1",
-    "confirmations": "1",
-    "is_nonce_based": false
+    "gas_price": "1"
   }
 ]
 ```
@@ -2962,20 +2977,18 @@ Status Code **200**
 |» deposit_threshold|string|false|none|none|
 |» open_fee|string|false|none|none|
 |» sys_open_fee|string|false|none|none|
-|» withdrawal_fee_rate|string|false|none|none|
+|» withdrawal_fee|string|false|none|none|
 |» max_op_cu_number|string|false|none|none|
-|» sys_transfer_num|string|false|none|none|
-|» op_cu_sys_transfer_num|string|false|none|none|
+|» systransfer_amount|string|false|none|none|
+|» op_cu_systransfer_amount|string|false|none|none|
 |» gas_limit|string|false|none|none|
 |» gas_price|string|false|none|none|
-|» confirmations|string|false|none|none|
-|» is_nonce_based|boolean|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## Order
+### Order
 
 Order module APIs
 
@@ -3002,16 +3015,18 @@ Order module APIs
   "order_type": 0,
   "symbol": "string",
   "status": 0,
-  "height": 0,
   "key_nodes": [
     "string"
   ],
   "sign_threshold": 0,
   "to": "string",
-  "open_fee": [],
-  "multi_sign_address": "string",
-  "pubkey": "string",
-  "epoch": "string"
+  "open_fee": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
+  "multi_sign_address": "string"
 }
 ```
 
@@ -3027,912 +3042,11 @@ Order module APIs
 This operation does not require authentication
 </aside>
 
-### get__order_process_list
-
-`GET /order/process_list`
-
-*List of process order id*
-
-> Example responses
-
-> 200 Response
-
-```json
-[
-  "string"
-]
-```
-
-<h3 id="get__order_process_list-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__order_process_list-responseschema">Response Schema</h3>
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## Mapping
-
-Mapping module APIs
-
-### get__mapping
-
-`GET /mapping`
-
-*Query list of mappings*
-
-<h3 id="get__mapping-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|page|query|integer|false|The page number.|
-|limit|query|integer|false|The maximum number of items per page.|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "block_height": "string",
-  "result": [
-    {
-      "issue_symbol": "cbtc",
-      "target_symbol": "btc",
-      "total_supply": "2100000000000000",
-      "issue_pool": "2099999900000000",
-      "enabled": true
-    }
-  ]
-}
-```
-
-<h3 id="get__mapping-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__mapping-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» block_height|string|false|none|none|
-|» result|[[MappingInfo](#schemamappinginfo)]|false|none|none|
-|»» issue_symbol|string|false|none|issue symbol as mapping source|
-|»» target_symbol|string|false|none|target symbol as mapping target|
-|»» total_supply|string|false|none|total supply for both issue and target symbols|
-|»» issue_pool|string|false|none|current amount locked in the issue pool|
-|»» enabled|boolean|false|none|whether the mapping is enabled|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__mapping_{issue-symbol}
-
-`GET /mapping/{issue-symbol}`
-
-*Query mapping info specified by an issue symbol.*
-
-<h3 id="get__mapping_{issue-symbol}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|issue-symbol|path|string|true|The issue symbol of the mapping info to query.|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "block_height": "string",
-  "result": {
-    "issue_symbol": "cbtc",
-    "target_symbol": "btc",
-    "total_supply": "2100000000000000",
-    "issue_pool": "2099999900000000",
-    "enabled": true
-  }
-}
-```
-
-<h3 id="get__mapping_{issue-symbol}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid token denomination|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__mapping_{issue-symbol}-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» block_height|string|false|none|none|
-|» result|[MappingInfo](#schemamappinginfo)|false|none|none|
-|»» issue_symbol|string|false|none|issue symbol as mapping source|
-|»» target_symbol|string|false|none|target symbol as mapping target|
-|»» total_supply|string|false|none|total supply for both issue and target symbols|
-|»» issue_pool|string|false|none|current amount locked in the issue pool|
-|»» enabled|boolean|false|none|whether the mapping is enabled|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## Keygen
-
-Keygen module APIs
-
-### get__keygen_wait_assign
-
-`GET /keygen/wait_assign`
-
-*Query all wait assign keygen order ids.*
-
-> Example responses
-
-> 200 Response
-
-```json
-[
-  "string"
-]
-```
-
-<h3 id="get__keygen_wait_assign-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__keygen_wait_assign-responseschema">Response Schema</h3>
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## Openswap
-
-Openswap module APIs
-
-### get__openswap_pair_{tokenA}_{tokenB}
-
-`GET /openswap/pair/{tokenA}/{tokenB}`
-
-*Query openswap trading pair by tokens*
-
-<h3 id="get__openswap_pair_{tokena}_{tokenb}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|tokenA|path|string|true|Trading pair Token A|
-|tokenB|path|string|true|Trading pair Token B|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "token_a": "btc",
-  "token_b": "usdt",
-  "token_a_amount": "100",
-  "token_b_amount": "10000",
-  "total_liquidity": "1000"
-}
-```
-
-<h3 id="get__openswap_pair_{tokena}_{tokenb}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid token name|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__openswap_pair_{tokena}_{tokenb}-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» token_a|string|false|none|none|
-|» token_b|string|false|none|none|
-|» token_a_amount|string|false|none|none|
-|» token_b_amount|string|false|none|none|
-|» total_liquidity|string|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__openswap_pairs
-
-`GET /openswap/pairs`
-
-*Query openswap all trading pair*
-
-> Example responses
-
-> 200 Response
-
-```json
-[
-  {
-    "token_a": "btc",
-    "token_b": "usdt",
-    "token_a_amount": "100",
-    "token_b_amount": "10000",
-    "total_liquidity": "1000"
-  }
-]
-```
-
-<h3 id="get__openswap_pairs-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__openswap_pairs-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» token_a|string|false|none|none|
-|» token_b|string|false|none|none|
-|» token_a_amount|string|false|none|none|
-|» token_b_amount|string|false|none|none|
-|» total_liquidity|string|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__openswap_liquidity_{addr}
-
-`GET /openswap/liquidity/{addr}`
-
-*Query openswap liquidity by account address*
-
-<h3 id="get__openswap_liquidity_{addr}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|addr|path|string|true|Account address|
-
-> Example responses
-
-> 200 Response
-
-```json
-[
-  {
-    "trading_pair": {
-      "token_a": "btc",
-      "token_b": "usdt",
-      "token_a_amount": "100",
-      "token_b_amount": "10000",
-      "total_liquidity": "1000"
-    },
-    "liquidity": "100",
-    "liquidity_share": "0.1"
-  }
-]
-```
-
-<h3 id="get__openswap_liquidity_{addr}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid address|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__openswap_liquidity_{addr}-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» trading_pair|object|false|none|none|
-|»» token_a|string|false|none|none|
-|»» token_b|string|false|none|none|
-|»» token_a_amount|string|false|none|none|
-|»» token_b_amount|string|false|none|none|
-|»» total_liquidity|string|false|none|none|
-|» liquidity|string|false|none|none|
-|» liquidity_share|string|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__openswap_orderbook_{pair}
-
-`GET /openswap/orderbook/{pair}`
-
-*Query orderbook of a trading pair*
-
-<h3 id="get__openswap_orderbook_{pair}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|pair|path|string|true|token pair|
-|merge|query|boolean|false|whether to merge the orderbook|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "buy": [
-    {
-      "order_id": "eba67e0b-e4d7-4584-af5a-4e9f58a484d9",
-      "from": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-      "referer": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-      "receiver": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-      "created_time": 1602661457,
-      "expired_time": -1,
-      "finished_time": 1602661857,
-      "status": "string",
-      "side": "string",
-      "base_symbol": "btc",
-      "quote_symbol": "usdt",
-      "price": 172.323,
-      "amount_int": 1000,
-      "locked_fund": 1000
-    }
-  ],
-  "sell": [
-    {
-      "order_id": "eba67e0b-e4d7-4584-af5a-4e9f58a484d9",
-      "from": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-      "referer": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-      "receiver": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-      "created_time": 1602661457,
-      "expired_time": -1,
-      "finished_time": 1602661857,
-      "status": "string",
-      "side": "string",
-      "base_symbol": "btc",
-      "quote_symbol": "usdt",
-      "price": 172.323,
-      "amount_int": 1000,
-      "locked_fund": 1000
-    }
-  ]
-}
-```
-
-<h3 id="get__openswap_orderbook_{pair}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid trading pair|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__openswap_orderbook_{pair}-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» buy|[[OpenswapOrder](#schemaopenswaporder)]|false|none|none|
-|»» order_id|string|false|none|none|
-|»» from|string|false|none|none|
-|»» referer|string|false|none|none|
-|»» receiver|string|false|none|none|
-|»» created_time|string|false|none|none|
-|»» expired_time|string|false|none|none|
-|»» finished_time|string|false|none|none|
-|»» status|string|false|none|none|
-|»» side|string|false|none|none|
-|»» base_symbol|string|false|none|none|
-|»» quote_symbol|string|false|none|none|
-|»» price|string|false|none|none|
-|»» amount_int|string|false|none|none|
-|»» locked_fund|string|false|none|none|
-|» sell|[[OpenswapOrder](#schemaopenswaporder)]|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__openswap_order_{orderID}
-
-`GET /openswap/order/{orderID}`
-
-*Query a limit-price order information*
-
-<h3 id="get__openswap_order_{orderid}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|orderID|path|string|true|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "order_id": "eba67e0b-e4d7-4584-af5a-4e9f58a484d9",
-  "from": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-  "referer": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-  "receiver": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-  "created_time": 1602661457,
-  "expired_time": -1,
-  "finished_time": 1602661857,
-  "status": "string",
-  "side": "string",
-  "base_symbol": "btc",
-  "quote_symbol": "usdt",
-  "price": 172.323,
-  "amount_int": 1000,
-  "locked_fund": 1000
-}
-```
-
-<h3 id="get__openswap_order_{orderid}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[OpenswapOrder](#schemaopenswaporder)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__openswap_pending_orders_{pair}_{addr}
-
-`GET /openswap/pending_orders/{pair}/{addr}`
-
-*Query a pending orders of an address*
-
-<h3 id="get__openswap_pending_orders_{pair}_{addr}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|pair|path|string|true|token pair|
-|addr|path|string|true|address|
-
-> Example responses
-
-> 200 Response
-
-```json
-[
-  {
-    "order_id": "eba67e0b-e4d7-4584-af5a-4e9f58a484d9",
-    "from": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-    "referer": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-    "receiver": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-    "created_time": 1602661457,
-    "expired_time": -1,
-    "finished_time": 1602661857,
-    "status": "string",
-    "side": "string",
-    "base_symbol": "btc",
-    "quote_symbol": "usdt",
-    "price": 172.323,
-    "amount_int": 1000,
-    "locked_fund": 1000
-  }
-]
-```
-
-<h3 id="get__openswap_pending_orders_{pair}_{addr}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid trading pair|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__openswap_pending_orders_{pair}_{addr}-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|*anonymous*|[[OpenswapOrder](#schemaopenswaporder)]|false|none|none|
-|» order_id|string|false|none|none|
-|» from|string|false|none|none|
-|» referer|string|false|none|none|
-|» receiver|string|false|none|none|
-|» created_time|string|false|none|none|
-|» expired_time|string|false|none|none|
-|» finished_time|string|false|none|none|
-|» status|string|false|none|none|
-|» side|string|false|none|none|
-|» base_symbol|string|false|none|none|
-|» quote_symbol|string|false|none|none|
-|» price|string|false|none|none|
-|» amount_int|string|false|none|none|
-|» locked_fund|string|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__openswap_earnings_{addr}
-
-`GET /openswap/earnings/{addr}`
-
-*Query unclaimed earnings of an address*
-
-<h3 id="get__openswap_earnings_{addr}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|addr|path|string|true|address|
-
-> Example responses
-
-> 200 Response
-
-```json
-[
-  {
-    "token_a": "btc",
-    "token_b": "usdt",
-    "amount": 1000.121
-  }
-]
-```
-
-<h3 id="get__openswap_earnings_{addr}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid address|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__openswap_earnings_{addr}-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» token_a|string|false|none|none|
-|» token_b|string|false|none|none|
-|» amount|string|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__openswap_parameters
-
-`GET /openswap/parameters`
-
-*Query parameters of openswap module*
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "minimum_liquidity": "string",
-  "fee_rate": "string",
-  "repurchase_rate": "string",
-  "referer_transaction_bonus_rate": "string",
-  "referer_mining_bonus_rate": "string",
-  "mining_weights": [
-    {
-      "token_a": "string",
-      "token_b": "string",
-      "weight": "string"
-    }
-  ],
-  "mining_plans": [
-    {
-      "start_height": "string",
-      "mining_per_block": "string"
-    }
-  ]
-}
-```
-
-<h3 id="get__openswap_parameters-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__openswap_parameters-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» minimum_liquidity|string|false|none|none|
-|» fee_rate|string|false|none|none|
-|» repurchase_rate|string|false|none|none|
-|» referer_transaction_bonus_rate|string|false|none|none|
-|» referer_mining_bonus_rate|string|false|none|none|
-|» mining_weights|[object]|false|none|none|
-|»» token_a|string|false|none|none|
-|»» token_b|string|false|none|none|
-|»» weight|string|false|none|none|
-|» mining_plans|[object]|false|none|none|
-|»» start_height|string|false|none|none|
-|»» mining_per_block|string|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## Hrc20
-
-### get__hrc20_parameters
-
-`GET /hrc20/parameters`
-
-*Query the hrc20 module's parameters*
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "issue_token_fee": "string"
-}
-```
-
-<h3 id="get__hrc20_parameters-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__hrc20_parameters-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» issue_token_fee|string|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## Transfer
-
-### post__transfer_accounts_{address}_transfers
-
-`POST /transfer/accounts/{address}/transfers`
-
-*Send coins to a address*
-
-> Body parameter
-
-```json
-{
-  "base_req": {
-    "from": "HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa",
-    "memo": "Sent via hbtcchain 🚀",
-    "chain_id": "hbtc-testnet",
-    "account_number": "0",
-    "sequence": "1",
-    "gas": "200000",
-    "gas_adjustment": "1.2",
-    "fees": [],
-    "simulate": false
-  },
-  "amount": "0.0100000000"
-}
-```
-
-<h3 id="post__transfer_accounts_{address}_transfers-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|object|true|none|
-|» base_req|body|[BaseReq](#schemabasereq)|false|none|
-|»» from|body|string|false|Sender address or Keybase name to generate a transaction|
-|»» memo|body|string|false|none|
-|»» chain_id|body|string|false|none|
-|»» account_number|body|string|false|none|
-|»» sequence|body|string|false|none|
-|»» gas|body|string|false|none|
-|»» gas_adjustment|body|string|false|none|
-|»» fees|body|array|false|none|
-|»»» *anonymous*|body|any|false|none|
-|»» simulate|body|boolean|false|Estimate gas for a transaction (cannot be used in conjunction with generate_only)|
-|» amount|body|string|false|none|
-|address|path|string|true|Account address|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "msg": [
-    "string"
-  ],
-  "fee": {
-    "gas": "string",
-    "amount": []
-  },
-  "memo": "string",
-  "signature": {
-    "signature": "MEUCIQD02fsDPra8MtbRsyB1w7bqTM55Wu138zQbFcWx4+CFyAIge5WNPfKIuvzBZ69MyqHsqD8S1IwiEp+iUb6VSdtlpgY=",
-    "pub_key": {
-      "type": "tendermint/PubKeySecp256k1",
-      "value": "Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH"
-    },
-    "account_number": "0",
-    "sequence": "0"
-  }
-}
-```
-
-<h3 id="post__transfer_accounts_{address}_transfers-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|The transaction was succesfully generated|[StdTx](#schemastdtx)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid account address|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__transfer_balances_{address}
-
-`GET /transfer/balances/{address}`
-
-*Query account balance info*
-
-<h3 id="get__transfer_balances_{address}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|address|path|string|true|Account address|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "coins": []
-}
-```
-
-<h3 id="get__transfer_balances_{address}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid account address|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__transfer_balances_{address}-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» coins|array|false|none|none|
-|»» *anonymous*|any|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## Upgrade
-
-### get__upgrade_current
-
-`GET /upgrade/current`
-
-*Query currently scheduled upgrade plan*
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "name": "string",
-  "time": "string",
-  "height": 0,
-  "info": "string"
-}
-```
-
-<h3 id="get__upgrade_current-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<h3 id="get__upgrade_current-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» name|string|false|none|none|
-|» time|string|false|none|none|
-|» height|number|false|none|none|
-|» info|string|false|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-### get__upgrade_applied_{name}
-
-`GET /upgrade/applied/{name}`
-
-*Query height at which the given upgrade was executed*
-
-<h3 id="get__upgrade_applied_{name}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|name|path|string|true|Plan name|
-
-> Example responses
-
-> 200 Response
-
-```json
-0
-```
-
-<h3 id="get__upgrade_applied_{name}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|number|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid plan name|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## DataStructure
+### DataStructure
 
 ### CheckTxResult
-<!-- backwards compatibility -->
+
 <a id="schemachecktxresult"></a>
-<a id="schema_CheckTxResult"></a>
-<a id="tocSchecktxresult"></a>
-<a id="tocschecktxresult"></a>
 
 ```json
 {
@@ -3963,11 +3077,8 @@ This operation does not require authentication
 |tags|[[KVPair](#schemakvpair)]|false|none|none|
 
 ### DeliverTxResult
-<!-- backwards compatibility -->
+
 <a id="schemadelivertxresult"></a>
-<a id="schema_DeliverTxResult"></a>
-<a id="tocSdelivertxresult"></a>
-<a id="tocsdelivertxresult"></a>
 
 ```json
 {
@@ -3998,11 +3109,8 @@ This operation does not require authentication
 |tags|[[KVPair](#schemakvpair)]|false|none|none|
 
 ### BroadcastTxCommitResult
-<!-- backwards compatibility -->
+
 <a id="schemabroadcasttxcommitresult"></a>
-<a id="schema_BroadcastTxCommitResult"></a>
-<a id="tocSbroadcasttxcommitresult"></a>
-<a id="tocsbroadcasttxcommitresult"></a>
 
 ```json
 {
@@ -4046,11 +3154,8 @@ This operation does not require authentication
 |height|integer|false|none|none|
 
 ### KVPair
-<!-- backwards compatibility -->
+
 <a id="schemakvpair"></a>
-<a id="schema_KVPair"></a>
-<a id="tocSkvpair"></a>
-<a id="tocskvpair"></a>
 
 ```json
 {
@@ -4068,11 +3173,8 @@ This operation does not require authentication
 |value|string|false|none|none|
 
 ### Msg
-<!-- backwards compatibility -->
+
 <a id="schemamsg"></a>
-<a id="schema_Msg"></a>
-<a id="tocSmsg"></a>
-<a id="tocsmsg"></a>
 
 ```json
 "string"
@@ -4086,18 +3188,15 @@ This operation does not require authentication
 |*anonymous*|string|false|none|none|
 
 ### Address
-<!-- backwards compatibility -->
+
 <a id="schemaaddress"></a>
-<a id="schema_Address"></a>
-<a id="tocSaddress"></a>
-<a id="tocsaddress"></a>
 
 ```json
 "HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa"
 
 ```
 
-base58 encoded address
+*base58 encoded address*
 
 #### Properties
 
@@ -4106,18 +3205,15 @@ base58 encoded address
 |*anonymous*|string|false|none|base58 encoded address|
 
 ### ValidatorAddress
-<!-- backwards compatibility -->
+
 <a id="schemavalidatoraddress"></a>
-<a id="schema_ValidatorAddress"></a>
-<a id="tocSvalidatoraddress"></a>
-<a id="tocsvalidatoraddress"></a>
 
 ```json
 "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx"
 
 ```
 
-bech32 encoded address
+*bech32 encoded address*
 
 #### Properties
 
@@ -4125,21 +3221,14 @@ bech32 encoded address
 |---|---|---|---|---|
 |*anonymous*|string|false|none|bech32 encoded address|
 
-### Asset
-<!-- backwards compatibility -->
-<a id="schemaasset"></a>
-<a id="schema_Asset"></a>
-<a id="tocSasset"></a>
-<a id="tocsasset"></a>
+### Coin
+
+<a id="schemacoin"></a>
 
 ```json
 {
-  "address": 5.8306492960253865e+47,
-  "denom": "eth",
-  "enable_sendtx": true,
-  "epoch": 1,
-  "gas_remained": 0,
-  "nonce": 0
+  "denom": "stake",
+  "amount": "50"
 }
 
 ```
@@ -4148,19 +3237,12 @@ bech32 encoded address
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|address|string|false|none|none|
 |denom|string|false|none|none|
-|enable_sendtx|boolean|false|none|none|
-|epoch|string|false|none|none|
-|gas_remained|string|false|none|none|
-|nonce|string|false|none|none|
+|amount|string|false|none|none|
 
 ### Hash
-<!-- backwards compatibility -->
+
 <a id="schemahash"></a>
-<a id="schema_Hash"></a>
-<a id="tocShash"></a>
-<a id="tocshash"></a>
 
 ```json
 "EE5F3404034C524501629B56E0DDC38FAD651F04"
@@ -4174,11 +3256,8 @@ bech32 encoded address
 |*anonymous*|string|false|none|none|
 
 ### TxQuery
-<!-- backwards compatibility -->
+
 <a id="schematxquery"></a>
-<a id="schema_TxQuery"></a>
-<a id="tocStxquery"></a>
-<a id="tocstxquery"></a>
 
 ```json
 {
@@ -4190,7 +3269,12 @@ bech32 encoded address
     ],
     "fee": {
       "gas": "string",
-      "amount": []
+      "amount": [
+        {
+          "denom": "stake",
+          "amount": "50"
+        }
+      ]
     },
     "memo": "string",
     "signature": {
@@ -4232,11 +3316,8 @@ bech32 encoded address
 |» tags|[[KVPair](#schemakvpair)]|false|none|none|
 
 ### StdTx
-<!-- backwards compatibility -->
+
 <a id="schemastdtx"></a>
-<a id="schema_StdTx"></a>
-<a id="tocSstdtx"></a>
-<a id="tocsstdtx"></a>
 
 ```json
 {
@@ -4245,7 +3326,12 @@ bech32 encoded address
   ],
   "fee": {
     "gas": "string",
-    "amount": []
+    "amount": [
+      {
+        "denom": "stake",
+        "amount": "50"
+      }
+    ]
   },
   "memo": "string",
   "signature": {
@@ -4279,11 +3365,8 @@ bech32 encoded address
 |» sequence|string|false|none|none|
 
 ### BlockID
-<!-- backwards compatibility -->
+
 <a id="schemablockid"></a>
-<a id="schema_BlockID"></a>
-<a id="tocSblockid"></a>
-<a id="tocsblockid"></a>
 
 ```json
 {
@@ -4306,11 +3389,8 @@ bech32 encoded address
 |» hash|[Hash](#schemahash)|false|none|none|
 
 ### BlockHeader
-<!-- backwards compatibility -->
+
 <a id="schemablockheader"></a>
-<a id="schema_BlockHeader"></a>
-<a id="tocSblockheader"></a>
-<a id="tocsblockheader"></a>
 
 ```json
 {
@@ -4367,11 +3447,8 @@ bech32 encoded address
 |» app|string|false|none|none|
 
 ### Block
-<!-- backwards compatibility -->
+
 <a id="schemablock"></a>
-<a id="schema_Block"></a>
-<a id="tocSblock"></a>
-<a id="tocsblock"></a>
 
 ```json
 {
@@ -4459,11 +3536,8 @@ bech32 encoded address
 |»» signature|string|false|none|none|
 
 ### BlockQuery
-<!-- backwards compatibility -->
+
 <a id="schemablockquery"></a>
-<a id="schema_BlockQuery"></a>
-<a id="tocSblockquery"></a>
-<a id="tocsblockquery"></a>
 
 ```json
 {
@@ -4579,16 +3653,18 @@ bech32 encoded address
 |block|[Block](#schemablock)|false|none|none|
 
 ### DelegationDelegatorReward
-<!-- backwards compatibility -->
+
 <a id="schemadelegationdelegatorreward"></a>
-<a id="schema_DelegationDelegatorReward"></a>
-<a id="tocSdelegationdelegatorreward"></a>
-<a id="tocsdelegationdelegatorreward"></a>
 
 ```json
 {
   "validator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
-  "reward": []
+  "reward": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ]
 }
 
 ```
@@ -4601,21 +3677,28 @@ bech32 encoded address
 |reward|[[Coin](#schemacoin)]|false|none|none|
 
 ### DelegatorTotalRewards
-<!-- backwards compatibility -->
+
 <a id="schemadelegatortotalrewards"></a>
-<a id="schema_DelegatorTotalRewards"></a>
-<a id="tocSdelegatortotalrewards"></a>
-<a id="tocsdelegatortotalrewards"></a>
 
 ```json
 {
   "rewards": [
     {
       "validator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
-      "reward": []
+      "reward": [
+        {
+          "denom": "stake",
+          "amount": "50"
+        }
+      ]
     }
   ],
-  "total": []
+  "total": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ]
 }
 
 ```
@@ -4628,11 +3711,8 @@ bech32 encoded address
 |total|[[Coin](#schemacoin)]|false|none|none|
 
 ### BaseReq
-<!-- backwards compatibility -->
+
 <a id="schemabasereq"></a>
-<a id="schema_BaseReq"></a>
-<a id="tocSbasereq"></a>
-<a id="tocsbasereq"></a>
 
 ```json
 {
@@ -4643,7 +3723,12 @@ bech32 encoded address
   "sequence": "1",
   "gas": "200000",
   "gas_adjustment": "1.2",
-  "fees": [],
+  "fees": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
   "simulate": false
 }
 
@@ -4664,11 +3749,8 @@ bech32 encoded address
 |simulate|boolean|false|none|Estimate gas for a transaction (cannot be used in conjunction with generate_only)|
 
 ### TendermintValidator
-<!-- backwards compatibility -->
+
 <a id="schematendermintvalidator"></a>
-<a id="schema_TendermintValidator"></a>
-<a id="tocStendermintvalidator"></a>
-<a id="tocstendermintvalidator"></a>
 
 ```json
 {
@@ -4690,11 +3772,8 @@ bech32 encoded address
 |proposer_priority|string|false|none|none|
 
 ### TextProposal
-<!-- backwards compatibility -->
+
 <a id="schematextproposal"></a>
-<a id="schema_TextProposal"></a>
-<a id="tocStextproposal"></a>
-<a id="tocstextproposal"></a>
 
 ```json
 {
@@ -4710,7 +3789,12 @@ bech32 encoded address
     "no_with_veto": "0.0000000000"
   },
   "submit_time": "string",
-  "total_deposit": [],
+  "total_deposit": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
   "voting_start_time": "string"
 }
 
@@ -4731,11 +3815,8 @@ bech32 encoded address
 |voting_start_time|string|false|none|none|
 
 ### Proposer
-<!-- backwards compatibility -->
+
 <a id="schemaproposer"></a>
-<a id="schema_Proposer"></a>
-<a id="tocSproposer"></a>
-<a id="tocsproposer"></a>
 
 ```json
 {
@@ -4753,15 +3834,17 @@ bech32 encoded address
 |proposer|string|false|none|none|
 
 ### Deposit
-<!-- backwards compatibility -->
+
 <a id="schemadeposit"></a>
-<a id="schema_Deposit"></a>
-<a id="tocSdeposit"></a>
-<a id="tocsdeposit"></a>
 
 ```json
 {
-  "amount": [],
+  "amount": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
   "proposal_id": "string",
   "depositor": "HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa"
 }
@@ -4777,11 +3860,8 @@ bech32 encoded address
 |depositor|[Address](#schemaaddress)|false|none|base58 encoded address|
 
 ### TallyResult
-<!-- backwards compatibility -->
+
 <a id="schematallyresult"></a>
-<a id="schema_TallyResult"></a>
-<a id="tocStallyresult"></a>
-<a id="tocstallyresult"></a>
 
 ```json
 {
@@ -4803,11 +3883,8 @@ bech32 encoded address
 |no_with_veto|string|false|none|none|
 
 ### CUKeyGen
-<!-- backwards compatibility -->
+
 <a id="schemacukeygen"></a>
-<a id="schema_CUKeyGen"></a>
-<a id="tocScukeygen"></a>
-<a id="tocscukeygen"></a>
 
 ```json
 {
@@ -4829,11 +3906,8 @@ bech32 encoded address
 |Symobl|string|false|none|none|
 
 ### CUDeposit
-<!-- backwards compatibility -->
+
 <a id="schemacudeposit"></a>
-<a id="schema_CUDeposit"></a>
-<a id="tocScudeposit"></a>
-<a id="tocscudeposit"></a>
 
 ```json
 {
@@ -4867,11 +3941,8 @@ bech32 encoded address
 |Memo|string|false|none|none|
 
 ### CUWithdrawal
-<!-- backwards compatibility -->
+
 <a id="schemacuwithdrawal"></a>
-<a id="schema_CUWithdrawal"></a>
-<a id="tocScuwithdrawal"></a>
-<a id="tocscuwithdrawal"></a>
 
 ```json
 {
@@ -4897,11 +3968,8 @@ bech32 encoded address
 |OrderID|string|false|none|none|
 
 ### Vote
-<!-- backwards compatibility -->
+
 <a id="schemavote"></a>
-<a id="schema_Vote"></a>
-<a id="tocSvote"></a>
-<a id="tocsvote"></a>
 
 ```json
 {
@@ -4921,20 +3989,14 @@ bech32 encoded address
 |option|string|false|none|none|
 
 ### Validator
-<!-- backwards compatibility -->
+
 <a id="schemavalidator"></a>
-<a id="schema_Validator"></a>
-<a id="tocSvalidator"></a>
-<a id="tocsvalidator"></a>
 
 ```json
 {
   "operator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
   "consensus_pubkey": "hbcvalconspub1zcjduepq6f9zhhlwne7gkx0yrpg3ff3xe4yl6eu977mjjexlf5jjspjq26zqmyekwd",
   "jailed": true,
-  "is_key_node": true,
-  "min_self_delegation": "string",
-  "last_key_node_heartbeat_height": "string",
   "status": 0,
   "tokens": "string",
   "delegator_shares": "string",
@@ -4965,9 +4027,6 @@ bech32 encoded address
 |operator_address|[ValidatorAddress](#schemavalidatoraddress)|false|none|bech32 encoded address|
 |consensus_pubkey|string|false|none|none|
 |jailed|boolean|false|none|none|
-|is_key_node|boolean|false|none|none|
-|min_self_delegation|string|false|none|none|
-|last_key_node_heartbeat_height|string|false|none|none|
 |status|integer|false|none|none|
 |tokens|string|false|none|none|
 |delegator_shares|string|false|none|none|
@@ -4987,11 +4046,8 @@ bech32 encoded address
 |» update_time|string|false|none|none|
 
 ### Delegation
-<!-- backwards compatibility -->
+
 <a id="schemadelegation"></a>
-<a id="schema_Delegation"></a>
-<a id="tocSdelegation"></a>
-<a id="tocsdelegation"></a>
 
 ```json
 {
@@ -5013,11 +4069,8 @@ bech32 encoded address
 |height|integer|false|none|none|
 
 ### UnbondingDelegationPair
-<!-- backwards compatibility -->
+
 <a id="schemaunbondingdelegationpair"></a>
-<a id="schema_UnbondingDelegationPair"></a>
-<a id="tocSunbondingdelegationpair"></a>
-<a id="tocsunbondingdelegationpair"></a>
 
 ```json
 {
@@ -5044,11 +4097,8 @@ bech32 encoded address
 |entries|[[UnbondingEntries](#schemaunbondingentries)]|false|none|none|
 
 ### UnbondingEntries
-<!-- backwards compatibility -->
+
 <a id="schemaunbondingentries"></a>
-<a id="schema_UnbondingEntries"></a>
-<a id="tocSunbondingentries"></a>
-<a id="tocsunbondingentries"></a>
 
 ```json
 {
@@ -5070,11 +4120,8 @@ bech32 encoded address
 |min_time|string|false|none|none|
 
 ### UnbondingDelegation
-<!-- backwards compatibility -->
+
 <a id="schemaunbondingdelegation"></a>
-<a id="schema_UnbondingDelegation"></a>
-<a id="tocSunbondingdelegation"></a>
-<a id="tocsunbondingdelegation"></a>
 
 ```json
 {
@@ -5100,11 +4147,8 @@ bech32 encoded address
 |min_time|integer|false|none|none|
 
 ### Redelegation
-<!-- backwards compatibility -->
+
 <a id="schemaredelegation"></a>
-<a id="schema_Redelegation"></a>
-<a id="tocSredelegation"></a>
-<a id="tocsredelegation"></a>
 
 ```json
 {
@@ -5112,12 +4156,7 @@ bech32 encoded address
   "validator_src_address": "string",
   "validator_dst_address": "string",
   "entries": [
-    {
-      "delegator_address": "string",
-      "validator_src_address": "string",
-      "validator_dst_address": "string",
-      "entries": []
-    }
+    null
   ]
 }
 
@@ -5133,11 +4172,8 @@ bech32 encoded address
 |entries|[[Redelegation](#schemaredelegation)]|false|none|none|
 
 ### RedelegationEntry
-<!-- backwards compatibility -->
+
 <a id="schemaredelegationentry"></a>
-<a id="schema_RedelegationEntry"></a>
-<a id="tocSredelegationentry"></a>
-<a id="tocsredelegationentry"></a>
 
 ```json
 {
@@ -5161,17 +4197,24 @@ bech32 encoded address
 |shares_dst|string|false|none|none|
 
 ### ValidatorDistInfo
-<!-- backwards compatibility -->
+
 <a id="schemavalidatordistinfo"></a>
-<a id="schema_ValidatorDistInfo"></a>
-<a id="tocSvalidatordistinfo"></a>
-<a id="tocsvalidatordistinfo"></a>
 
 ```json
 {
   "operator_address": "hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx",
-  "self_bond_rewards": [],
-  "val_commission": []
+  "self_bond_rewards": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
+  "val_commission": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ]
 }
 
 ```
@@ -5185,11 +4228,8 @@ bech32 encoded address
 |val_commission|[[Coin](#schemacoin)]|false|none|none|
 
 ### PublicKey
-<!-- backwards compatibility -->
+
 <a id="schemapublickey"></a>
-<a id="schema_PublicKey"></a>
-<a id="tocSpublickey"></a>
-<a id="tocspublickey"></a>
 
 ```json
 {
@@ -5207,11 +4247,8 @@ bech32 encoded address
 |value|string|false|none|none|
 
 ### SigningInfo
-<!-- backwards compatibility -->
+
 <a id="schemasigninginfo"></a>
-<a id="schema_SigningInfo"></a>
-<a id="tocSsigninginfo"></a>
-<a id="tocssigninginfo"></a>
 
 ```json
 {
@@ -5233,11 +4270,8 @@ bech32 encoded address
 |missed_blocks_counter|string|false|none|none|
 
 ### ParamChange
-<!-- backwards compatibility -->
+
 <a id="schemaparamchange"></a>
-<a id="schema_ParamChange"></a>
-<a id="tocSparamchange"></a>
-<a id="tocsparamchange"></a>
 
 ```json
 {
@@ -5259,15 +4293,17 @@ bech32 encoded address
 |value|object|false|none|none|
 
 ### Supply
-<!-- backwards compatibility -->
+
 <a id="schemasupply"></a>
-<a id="schema_Supply"></a>
-<a id="tocSsupply"></a>
-<a id="tocssupply"></a>
 
 ```json
 {
-  "total": []
+  "total": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ]
 }
 
 ```
@@ -5279,11 +4315,8 @@ bech32 encoded address
 |total|[[Coin](#schemacoin)]|false|none|none|
 
 ### Token
-<!-- backwards compatibility -->
+
 <a id="schematoken"></a>
-<a id="schema_Token"></a>
-<a id="tocStoken"></a>
-<a id="tocstoken"></a>
 
 ```json
 {
@@ -5300,14 +4333,12 @@ bech32 encoded address
   "deposit_threshold": "0",
   "open_fee": "1000000000000000000",
   "sys_open_fee": "1000000000000000000",
-  "withdrawal_fee_rate": "2.0",
+  "withdrawal_fee": "0",
   "max_op_cu_number": "3",
-  "sys_transfer_num": "0",
-  "op_cu_sys_transfer_num": "0",
+  "systransfer_amount": "0",
+  "op_cu_systransfer_amount": "0",
   "gas_limit": "1000000",
-  "gas_price": "1",
-  "confirmations": "1",
-  "is_nonce_based": false
+  "gas_price": "1"
 }
 
 ```
@@ -5329,21 +4360,16 @@ bech32 encoded address
 |deposit_threshold|string|false|none|none|
 |open_fee|string|false|none|none|
 |sys_open_fee|string|false|none|none|
-|withdrawal_fee_rate|string|false|none|none|
+|withdrawal_fee|string|false|none|none|
 |max_op_cu_number|string|false|none|none|
-|sys_transfer_num|string|false|none|none|
-|op_cu_sys_transfer_num|string|false|none|none|
+|systransfer_amount|string|false|none|none|
+|op_cu_systransfer_amount|string|false|none|none|
 |gas_limit|string|false|none|none|
 |gas_price|string|false|none|none|
-|confirmations|string|false|none|none|
-|is_nonce_based|boolean|false|none|none|
 
 ### Order
-<!-- backwards compatibility -->
+
 <a id="schemaorder"></a>
-<a id="schema_Order"></a>
-<a id="tocSorder"></a>
-<a id="tocsorder"></a>
 
 ```json
 {
@@ -5352,52 +4378,51 @@ bech32 encoded address
   "order_type": 0,
   "symbol": "string",
   "status": 0,
-  "height": 0,
   "key_nodes": [
     "string"
   ],
   "sign_threshold": 0,
   "to": "string",
-  "open_fee": [],
-  "multi_sign_address": "string",
-  "pubkey": "string",
-  "epoch": "string"
+  "open_fee": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
+  "multi_sign_address": "string"
 }
 
 ```
 
 #### Properties
 
-oneOf
+*oneOf*
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |*anonymous*|[OrderKeyGen](#schemaorderkeygen)|false|none|none|
 
-xor
+*xor*
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |*anonymous*|[OrderCollect](#schemaordercollect)|false|none|none|
 
-xor
+*xor*
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |*anonymous*|[OrderWithdrawal](#schemaorderwithdrawal)|false|none|none|
 
-xor
+*xor*
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |*anonymous*|[OrderSysTransfer](#schemaordersystransfer)|false|none|none|
 
 ### OrderKeyGen
-<!-- backwards compatibility -->
+
 <a id="schemaorderkeygen"></a>
-<a id="schema_OrderKeyGen"></a>
-<a id="tocSorderkeygen"></a>
-<a id="tocsorderkeygen"></a>
 
 ```json
 {
@@ -5406,16 +4431,18 @@ xor
   "order_type": 0,
   "symbol": "string",
   "status": 0,
-  "height": 0,
   "key_nodes": [
     "string"
   ],
   "sign_threshold": 0,
   "to": "string",
-  "open_fee": [],
-  "multi_sign_address": "string",
-  "pubkey": "string",
-  "epoch": "string"
+  "open_fee": [
+    {
+      "denom": "stake",
+      "amount": "50"
+    }
+  ],
+  "multi_sign_address": "string"
 }
 
 ```
@@ -5429,21 +4456,15 @@ xor
 |order_type|number|false|none|none|
 |symbol|string|false|none|none|
 |status|number|false|none|none|
-|height|number|false|none|none|
 |key_nodes|[string]|false|none|none|
 |sign_threshold|number|false|none|none|
 |to|string|false|none|none|
 |open_fee|[[Coin](#schemacoin)]|false|none|none|
 |multi_sign_address|string|false|none|none|
-|pubkey|string|false|none|none|
-|epoch|string|false|none|none|
 
 ### OrderCollect
-<!-- backwards compatibility -->
+
 <a id="schemaordercollect"></a>
-<a id="schema_OrderCollect"></a>
-<a id="tocSordercollect"></a>
-<a id="tocsordercollect"></a>
 
 ```json
 {
@@ -5452,21 +4473,26 @@ xor
   "order_type": 0,
   "symbol": "string",
   "status": 0,
-  "height": 0,
   "collect_from_cu": "string",
   "collect_from_address": "string",
   "collect_to_cu": "string",
   "amount": "string",
   "gas_price": "string",
   "gas_limit": "string",
-  "cost_fee": "string",
   "tx_hash": "string",
+  "height": 0,
   "index": 0,
   "memo": "string",
   "raw_data": "string",
   "signed_Tx": "string",
   "ext_txhash": "string",
-  "depositstatus": 0
+  "depositstatus": 0,
+  "validnodes": [
+    "string"
+  ],
+  "invalidnodes": [
+    "string"
+  ]
 }
 
 ```
@@ -5480,28 +4506,26 @@ xor
 |order_type|number|false|none|none|
 |symbol|string|false|none|none|
 |status|number|false|none|none|
-|height|number|false|none|none|
 |collect_from_cu|string|false|none|none|
 |collect_from_address|string|false|none|none|
 |collect_to_cu|string|false|none|none|
 |amount|string|false|none|none|
 |gas_price|string|false|none|none|
 |gas_limit|string|false|none|none|
-|cost_fee|string|false|none|none|
 |tx_hash|string|false|none|none|
+|height|number|false|none|none|
 |index|number|false|none|none|
 |memo|string|false|none|none|
 |raw_data|string|false|none|none|
 |signed_Tx|string|false|none|none|
 |ext_txhash|string|false|none|none|
 |depositstatus|number|false|none|none|
+|validnodes|[string]|false|none|none|
+|invalidnodes|[string]|false|none|none|
 
 ### OrderWithdrawal
-<!-- backwards compatibility -->
+
 <a id="schemaorderwithdrawal"></a>
-<a id="schema_OrderWithdrawal"></a>
-<a id="tocSorderwithdrawal"></a>
-<a id="tocsorderwithdrawal"></a>
 
 ```json
 {
@@ -5510,64 +4534,10 @@ xor
   "order_type": 0,
   "symbol": "string",
   "status": 0,
-  "height": 0,
   "amount": "string",
   "gas_fee": "string",
   "cost_fee": "string",
   "withdraw_to_address": "string",
-  "from_address": "string",
-  "opcu_address": "string",
-  "utxoin_num": 0,
-  "tx_hash": "string",
-  "raw_data": "string",
-  "signed_tx": "string",
-  "withdraw_status": 0
-}
-
-```
-
-#### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|cu_address|string|false|none|none|
-|id|string|false|none|none|
-|order_type|number|false|none|none|
-|symbol|string|false|none|none|
-|status|number|false|none|none|
-|height|number|false|none|none|
-|amount|string|false|none|none|
-|gas_fee|string|false|none|none|
-|cost_fee|string|false|none|none|
-|withdraw_to_address|string|false|none|none|
-|from_address|string|false|none|none|
-|opcu_address|string|false|none|none|
-|utxoin_num|number|false|none|none|
-|tx_hash|string|false|none|none|
-|raw_data|string|false|none|none|
-|signed_tx|string|false|none|none|
-|withdraw_status|number|false|none|none|
-
-### OrderSysTransfer
-<!-- backwards compatibility -->
-<a id="schemaordersystransfer"></a>
-<a id="schema_OrderSysTransfer"></a>
-<a id="tocSordersystransfer"></a>
-<a id="tocsordersystransfer"></a>
-
-```json
-{
-  "cu_address": "string",
-  "id": "string",
-  "order_type": 0,
-  "symbol": "string",
-  "status": 0,
-  "height": 0,
-  "amount": "string",
-  "cost_fee": "string",
-  "to_cu": "string",
-  "to_address": "string",
-  "from_address": "string",
   "opcu_address": "string",
   "tx_hash": "string",
   "raw_data": "string",
@@ -5585,31 +4555,34 @@ xor
 |order_type|number|false|none|none|
 |symbol|string|false|none|none|
 |status|number|false|none|none|
-|height|number|false|none|none|
 |amount|string|false|none|none|
+|gas_fee|string|false|none|none|
 |cost_fee|string|false|none|none|
-|to_cu|string|false|none|none|
-|to_address|string|false|none|none|
-|from_address|string|false|none|none|
+|withdraw_to_address|string|false|none|none|
 |opcu_address|string|false|none|none|
 |tx_hash|string|false|none|none|
 |raw_data|string|false|none|none|
 |signed_tx|string|false|none|none|
 
-### MappingInfo
-<!-- backwards compatibility -->
-<a id="schemamappinginfo"></a>
-<a id="schema_MappingInfo"></a>
-<a id="tocSmappinginfo"></a>
-<a id="tocsmappinginfo"></a>
+### OrderSysTransfer
+
+<a id="schemaordersystransfer"></a>
 
 ```json
 {
-  "issue_symbol": "cbtc",
-  "target_symbol": "btc",
-  "total_supply": "2100000000000000",
-  "issue_pool": "2099999900000000",
-  "enabled": true
+  "cu_address": "string",
+  "id": "string",
+  "order_type": 0,
+  "symbol": "string",
+  "status": 0,
+  "amount": "string",
+  "cost_fee": "string",
+  "to_cu": "string",
+  "to_address": "string",
+  "opcu_address": "string",
+  "tx_hash": "string",
+  "raw_data": "string",
+  "signed_tx": "string"
 }
 
 ```
@@ -5618,55 +4591,17 @@ xor
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|issue_symbol|string|false|none|issue symbol as mapping source|
-|target_symbol|string|false|none|target symbol as mapping target|
-|total_supply|string|false|none|total supply for both issue and target symbols|
-|issue_pool|string|false|none|current amount locked in the issue pool|
-|enabled|boolean|false|none|whether the mapping is enabled|
-
-### OpenswapOrder
-<!-- backwards compatibility -->
-<a id="schemaopenswaporder"></a>
-<a id="schema_OpenswapOrder"></a>
-<a id="tocSopenswaporder"></a>
-<a id="tocsopenswaporder"></a>
-
-```json
-{
-  "order_id": "eba67e0b-e4d7-4584-af5a-4e9f58a484d9",
-  "from": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-  "referer": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-  "receiver": "HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12",
-  "created_time": 1602661457,
-  "expired_time": -1,
-  "finished_time": 1602661857,
-  "status": "string",
-  "side": "string",
-  "base_symbol": "btc",
-  "quote_symbol": "usdt",
-  "price": 172.323,
-  "amount_int": 1000,
-  "locked_fund": 1000
-}
-
-```
-
-#### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|order_id|string|false|none|none|
-|from|string|false|none|none|
-|referer|string|false|none|none|
-|receiver|string|false|none|none|
-|created_time|string|false|none|none|
-|expired_time|string|false|none|none|
-|finished_time|string|false|none|none|
-|status|string|false|none|none|
-|side|string|false|none|none|
-|base_symbol|string|false|none|none|
-|quote_symbol|string|false|none|none|
-|price|string|false|none|none|
-|amount_int|string|false|none|none|
-|locked_fund|string|false|none|none|
+|cu_address|string|false|none|none|
+|id|string|false|none|none|
+|order_type|number|false|none|none|
+|symbol|string|false|none|none|
+|status|number|false|none|none|
+|amount|string|false|none|none|
+|cost_fee|string|false|none|none|
+|to_cu|string|false|none|none|
+|to_address|string|false|none|none|
+|opcu_address|string|false|none|none|
+|tx_hash|string|false|none|none|
+|raw_data|string|false|none|none|
+|signed_tx|string|false|none|none|
 

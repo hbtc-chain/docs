@@ -1,130 +1,48 @@
 ## 跨链资产映射
 
-当全节点与全网同步所有区块后，我们可以用命令行工具(hbtccli)与HBTC Chain进行交互，可以运行以下指令查询所有的命令。
+跨链资产映射可以将一条链的资产映射到另一条链上，例如，用户可以在 ETH 上发行 CBTC 的 ERC20 代币，然后通过 hbtcchain 将 BTC 主网币映射成 ETH 上的 CBTC。
+具体步骤为：  
+1. 在 ETH 链上发行 CBTC 代币，代币总量固定且不可增发和销毁。 
+2. 以跨链资产转账的方式，将所有 CBTC 充值到 hbtcchain 链上，映射成 hbtcchain 的代币 CBTC  
+3. 发起新增资产映射的提案，创建 BTC 到 CBTC 的映射对， 持有HBC的人可以投票这个映射对的安全合规问题（资产已经全部充入且智能合约经过安全审计）
+4. 提案通过后，用户可以通过资产映射功能进行 BTC 和 CBTC 的一比一兑换，兑换完成后，可以通过跨链提现的方式，将资产转移到eth上并进行相关操作。
+5. 用户可以把eth上面的CBTC提回到HBTC Chain上，然后再通过资产映射功能换回BTC，并可以自由体现到自己的BTC链上地址。
+
+同理，我们可以把任意公链资产完全1:1锚定的方式带入到任意公链，实现资产的去中心化安全可靠流通。
+
+### 1. 新增资产映射提案
+命令：
 
 ```bash
-$ hbtccli help
+hbtccli tx gov submit-proposal add-mapping [issue-symbol] [target-symbol] [total-supply] [flags]
 ```
 
-我们给出跨链资产充币，产映射和提币的流程简介，以用户alice为例介绍抵押0.01btc并发行得到0.01cbtc（以太坊ERC20 cBTC）的交互流程。（假设我们的二进制运行在本机的node目录下,alice为其中一个用户）。
-
-### 1. 创建和管理HBTC Chain托管单元
-```bash
-$ hbtccli keys add alice --home node/hbtccli
-```
-通过该命令我们在指定的node目录下创建了一个alice的托管单元（创建过程中需要输入你的密码对托管单元密钥进行加密存储），创建成功后展示如下：
-```json
-{
-  "name": "alice",
-  "address": "HBCPNuLKXuQSVgGe4kfF3JxJZb1Uytkajb3Q",
-  "pubkey": "hbcpub1addwnpepqdp4ac6l2f7tjtwssvdra7fy2xfrl8th4ltcx4dgy60z2a7ffx5lcu2ja8v",
-}
-```
-
-**完成这个操作后需要向HBTC Chain申请一定的hbc用来测试，具体申请方式请参考FAQ。**
-
-### 2. 创建比特币和以太坊的跨链托管地址
-首先，为alice托管单元创建一个BTC的跨链托管地址，操作命令如下：
-```bash
-$ hbtccli tx keygen keygen alice btc HBCPNuLKXuQSVgGe4kfF3JxJZb1Uytkajb3Q  --chain-id hbtc-testnet --home node/hbtccli
-```
-通过这个命令alice创建了一个btc跨链托管单元地址，命令发送执行后等待2-3个区块后（密钥的分布式生成需要一定的时间），我们通过下面的命令查询对应的托管单元信息，可以获取到alice的btc跨链托管地址：
-```
-$ hbtccli query cu cuinfo HBCPNuLKXuQSVgGe4kfF3JxJZb1Uytkajb3Q --chain-id hbtc-testnet --home node/hbtccli
-```
-查询的结果展示为：
-```json
-{
-  "type": "hbtcchain/CustodianUnit",
-  "value": {
-    "address": "HBCPNuLKXuQSVgGe4kfF3JxJZb1Uytkajb3Q",
-    "assets": [
-      {
-        "denom": "btc",
-        "address": "12ayvTjKBxZnScRoEZ67seVySsqD5JboaA",
-        "enable_sendtx": true
-      }
-    ],
-  }
-}
-```
-从查询到的信息看，为alice托管单元在创建了一个btc的跨链托管地址(mtZQH3wjTGu8FgPrS7B6gicay4kcPVa1wa)，并且这个地址的密钥由各个记账人节点分布式保存其中的分片。
-同样的原理，alice又为自己创建了一个eth/usdt的跨链托管地址，其数据查询如下：
-```json
-{
-  "type": "hbtcchain/CustodianUnit",
-  "value": {
-    "address": "HBCcUCWJNattE5PYm6xQKbaCoRCG2SaVdHvH",
-    "assets": [
-      {
-        "denom": "usdt",
-        "address": "0xB48fEe1Df0Ae85415Eb286E66b262DA70BD94693",
-        "nonce": "0",
-        "enable_sendtx": true
-      },
-      {
-        "denom": "eth",
-        "address": "0xB48fEe1Df0Ae85415Eb286E66b262DA70BD94693",
-        "nonce": "0",
-        "enable_sendtx": true
-      }
-    ],
-  }
-}
-```
-### 3. 充入跨链资产
-通过上述步骤，alice创建了btc/eth相关的跨链地址，alice可以通过自己的钱包向自己的跨链btc地址(12ayvTjKBxZnScRoEZ67seVySsqD5JboaA)充入一定输了的btc，充值完成后，HBTC Chain会自动扫描托管单元的跨链地址，把对应的充值记账到HBTC Chain 对应的托管单元上。比如，alice充值了0.01btc和0.1 eth，查询对应托管单元的信息如下：
-```json
-{
-  "type": "hbtcchain/CustodianUnit",
-  "value": {
-    "address": "HBCcUCWJNattE5PYm6xQKbaCoRCG2SaVdHvH",
-    "coins": [
-      {
-        "denom": "btc",
-        "amount": "1000000"
-      },
-      {
-        "denom": "eth",
-        "amount": "10000000000000000",
-      },
-      {
-        "denom": "hbc",
-        "amount": "10000000000000000000"
-      }
-    ]
-  }
-}
-```
-可以很清晰的看到alice的托管单元里面已经有了对应的资产。
-
-### 4. 资产映射
-
-alice可以通过已有的cbc资产映射合约将冲入的0.01btc映射发行为ERC20的0.01cbtc。资产映射发行的命令如下：
+新增资产映射提案前，需要确保发行的代币已经全部充值到提案发起者的账户。这里以 alice 为例：
 
 ```bash
-$ hbtccli tx mapping swap cbtc 1000000btc --from alice --chain-id hbtc-testnet --home node/hbtccli
+$ hbtccli tx gov submit-proposal add-mapping hxbtc hbtc 2100000000000000 --deposit 10000000000000000000000 --from alice --chain-id hbtc-testnet --home node/hbtccli
 ```
 
-通过该命令我们完成了alice的映射交易，alice的0.01个btc交换到了0.01个cbtc。交易完成后可以通过查看对应的托管单元的资产，比如alice的资产展示为：
-```json
-{
-  "type": "hbtcchain/CustodianUnit",
-  "value": {
-    "address": "HBCPNuLKXuQSVgGe4kfF3JxJZb1Uytkajb3Q",
-    "coins": [
-      {
-        "denom": "cbtc",
-        "amount": "100000"
-      }
-    ],
-}
-```
-可以看到，btc已经全部抵押，alice成功映射发行给自己0.01cbtc
+提案通过以后，即可进行资产映射
 
-### 5. 提出跨链资产
-alice完成资产映射交易后，alice想提出交易获取到的0.01cbtc到自己的钱包中，则可以执行如下命令：
+### 2. 跨链资产映射兑换
+命令：  
+
 ```bash
-hbtccli tx transfer withdrawal alice 0xC933C741416151dAcFE9428d39222f747e2b45EB 100000cbtc 21000000000000000 --chain-id hbtc-testnet --home node/hbtccli
+hbtccli tx mapping swap [issue-symbol] [coin] [flags]
 ```
-通过该命令，alice把自己通过获取到的0.01cbtc提现到自己的eth账户(0xC933C741416151dAcFE9428d39222f747e2b45EB 非托管地址）上，通过一定区块高度后，用户可以在自己的钱包账户看到提现到账信息。（注：alice如果想提取cbtc，需要在链上充入或者交易获取到一定的eth作为手续费）。
+
+示例：  
+alice 兑换 1 个 btc 到 1 个 cbtc:  
+
+```bash
+hbtccli tx mapping swap cbtc 100000000btc --from alice --chain-id hbtc-testnet --home node/hbtccli
+```
+
+alice 兑换 1 个 cbtc 到 1 个 btc:  
+
+```bash
+hbtccli tx mapping swap btc 100000000cbtc --from alice --chain-id hbtc-testnet --home node/hbtccli
+```
+
+映射资产兑换完成之后，用户即可将获得的币通过提现功能，转移到对应的链上。

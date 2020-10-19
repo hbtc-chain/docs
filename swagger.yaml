@@ -23,12 +23,49 @@ tags:
   - name: Mint
     description: Minting module APIs
   - name: Misc
-    description: Query app version
+    description: Miscellaneous APIs
   - name: Token
     description: Token module APIs
   - name: Order
     description: Order module APIs
+  - name: Mapping
+    description: Mapping module APIs
+  - name: Keygen
+    description: Keygen module APIs
+  - name: Openswap 
+    description: Openswap module APIs
 paths:
+  /gas_price:
+    get:
+      description: Suggest for a reasonable gas price from the last [count] blocks
+      summary: Suggest a gas price
+      tags:
+        - Misc
+      parameters:
+        - in: query
+          name: count
+          description: How many block to consider for suggesting gas price. Default to 12
+          required: false
+          schema:
+            type: number
+            example: 12
+      responses:
+        200:
+          description: The suggested gas price
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    denom:
+                      type: string
+                    amount:
+                      type: string
+        400:
+          description: Invalid count
+
   /node_info:
     get:
       description: Information about the connected node
@@ -39,66 +76,66 @@ paths:
         200:
           description: Node status
           content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    application_version:
-                      properties:
-                        build_tags:
-                          type: string
-                        client_name:
-                          type: string
-                        commit:
-                          type: string
-                        go:
-                          type: string
-                        name:
-                          type: string
-                        server_name:
-                          type: string
-                        version:
-                          type: string
-                    node_info:
-                      properties:
-                        id:
-                          type: string
-                        moniker:
-                          type: string
-                          example: validator-name
-                        protocol_version:
-                          properties:
-                            p2p:
-                              type: string
-                              example: 7
-                            block:
-                              type: string
-                              example: 10
-                            app:
-                              type: string
-                              example: 0
-                        network:
-                          type: string
-                          example: gaia-2
-                        channels:
-                          type: string
-                        listen_addr:
-                          type: string
-                          example: 192.168.56.1:26656
-                        version:
-                          description: Tendermint version
-                          type: string
-                          example: 0.15.0
-                        other:
-                          description: more information on versions
-                          type: object
-                          properties:
-                            tx_index:
-                              type: string
-                              example: on
-                            rpc_address:
-                              type: string
-                              example: tcp://0.0.0.0:26657
+            application/json:
+              schema:
+                type: object
+                properties:
+                  application_version:
+                    properties:
+                      build_tags:
+                        type: string
+                      client_name:
+                        type: string
+                      commit:
+                        type: string
+                      go:
+                        type: string
+                      name:
+                        type: string
+                      server_name:
+                        type: string
+                      version:
+                        type: string
+                  node_info:
+                    properties:
+                      id:
+                        type: string
+                      moniker:
+                        type: string
+                        example: validator-name
+                      protocol_version:
+                        properties:
+                          p2p:
+                            type: string
+                            example: 7
+                          block:
+                            type: string
+                            example: 10
+                          app:
+                            type: string
+                            example: 0
+                      network:
+                        type: string
+                        example: gaia-2
+                      channels:
+                        type: string
+                      listen_addr:
+                        type: string
+                        example: 192.168.56.1:26656
+                      version:
+                        description: Tendermint version
+                        type: string
+                        example: 0.15.0
+                      other:
+                        description: more information on versions
+                        type: object
+                        properties:
+                          tx_index:
+                            type: string
+                            example: on
+                          rpc_address:
+                            type: string
+                            example: tcp://0.0.0.0:26657
         500:
           description: Failed to query node status
   /syncing:
@@ -321,11 +358,41 @@ paths:
                   value:
                     type: object
                     properties:
-                      account_number:
+                      cu_type:
                         type: string
                       address:
                         type: string
+                      migration_status:
+                        type: string
+                      asset_pubkey:
+                        type: string
+                      asset_pubkey_epoch:
+                        type: string
+                      assets:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Asset"
+                      asset_coins_hold:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Coin"
+                      asset_coins:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Coin"
+                      coins_hold:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Coin"
                       coins:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Coin"
+                      gas_received:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Coin"
+                      gas_used:
                         type: array
                         items:
                           $ref: "#/components/schemas/Coin"
@@ -333,6 +400,45 @@ paths:
                         $ref: "#/components/schemas/PublicKey"
                       sequence:
                         type: string
+        500:
+          description: Server internel error
+  /cu/pending_deposit/{address}:
+    get:
+      summary: Get the custodian unit pending deposit list
+      tags:
+        - Cu
+      parameters:
+        - in: path
+          name: address
+          description: Account address
+          required: true
+          schema:
+            type: string
+            example: HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa
+      responses:
+        200:
+          description: pending deposit list of address
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    index:
+                      type: string
+                    ext_address:
+                      type: string
+                    amount:
+                      type: string
+                    memo:
+                      type: string
+                    status:
+                      type: number
+        400:
+          description: invalid address
         500:
           description: Server internel error
   /staking/delegators/{delegatorAddr}/delegations:
@@ -693,17 +799,23 @@ paths:
               schema:
                 type: object
                 properties:
-                  inflation_rate_change:
+                  max_entries:
                     type: string
-                  inflation_max:
+                  election_period:
                     type: string
-                  inflation_min:
+                  min_validator_delegation:
                     type: string
-                  goal_bonded:
+                  min_key_node_delegation:
+                    type: string
+                  max_key_node_heartbeat_interval:
+                    type: string
+                  max_candidate_key_node_heartbeat_interval:
                     type: string
                   unbonding_time:
                     type: string
                   max_validators:
+                    type: integer
+                  max_key_nodes:
                     type: integer
                   bond_denom:
                     type: string
@@ -834,49 +946,6 @@ paths:
                   $ref: "#/components/schemas/TextProposal"
         400:
           description: Invalid query parameters
-        500:
-          description: Internal Server Error
-  /gov/proposals/param_change:
-    post:
-      summary: Generate a parameter change proposal transaction
-      description: Generate a parameter change proposal transaction
-      tags:
-        - Governance
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              description: The parameter change proposal body that contains all parameter changes
-              properties:
-                base_req:
-                  $ref: "#/components/schemas/BaseReq"
-                title:
-                  type: string
-                  example: "Param Change"
-                description:
-                  type: string
-                  example: "Update max validators"
-                proposer:
-                  $ref: "#/components/schemas/Address"
-                deposit:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Coin"
-                changes:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/ParamChange"
-      responses:
-        200:
-          description: The transaction was succesfully generated
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/StdTx"
-        400:
-          description: Invalid proposal body
         500:
           description: Internal Server Error
   /gov/proposals/{proposalId}:
@@ -1363,45 +1432,10 @@ paths:
                 properties:
                   mint_denom:
                     type: string
-                  inflation_rate_change:
+                  inflation:
                     type: string
-                  inflation_max:
+                  mint_per_block:
                     type: string
-                  inflation_min:
-                    type: string
-                  goal_bonded:
-                    type: string
-                  blocks_per_year:
-                    type: string
-        500:
-          description: Internal Server Error
-  /minting/inflation:
-    get:
-      summary: Current minting inflation value
-      tags:
-        - Mint
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
-        500:
-          description: Internal Server Error
-  /minting/annual-provisions:
-    get:
-      summary: Current minting annual provisions value
-      tags:
-        - Mint
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
         500:
           description: Internal Server Error
   /supply/total:
@@ -1426,7 +1460,7 @@ paths:
         required: true
         schema:
           type: string
-          example: uatom
+          example: hbc
     get:
       summary: Total supply of a single coin denomination
       tags:
@@ -1438,7 +1472,46 @@ paths:
           content:
             application/json:
               schema:
-                 type: string
+                type: string
+        400:
+          description: Invalid coin denomination
+        500:
+          description: Internal Server Error
+  /supply/burned:
+    get:
+      summary: Amount of burned coins in the chain
+      tags:
+        - Supply
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Supply"
+        500:
+          description: Internal Server Error
+  /supply/burned/{denomination}:
+    parameters:
+      - in: path
+        name: denomination
+        description: Coin denomination
+        required: true
+        schema:
+          type: string
+          example: hdt
+    get:
+      summary: Burned amount of a single coin denomination
+      tags:
+        - Supply
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
         400:
           description: Invalid coin denomination
         500:
@@ -1486,7 +1559,7 @@ paths:
               schema:
                 type: array
                 items:
-                    $ref: "#/components/schemas/Token"
+                  $ref: "#/components/schemas/Token"
         500:
           description: Internal Server Error
   /order/info/{orderId}:
@@ -1510,6 +1583,529 @@ paths:
                 $ref: "#/components/schemas/Order"
         400:
           description: Invalid order ID
+        500:
+          description: Internal Server Error
+  /order/process_list:
+    get:
+      summary: List of process order id
+      tags:
+        - Order
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        500:
+          description: Internal Server Error
+  /mapping:
+    parameters:
+      - in: query
+        name: page
+        description: The page number.
+        schema:
+          type: integer
+          example: 1
+      - in: query
+        name: limit
+        description: The maximum number of items per page.
+        schema:
+          type: integer
+          example: 1
+    get:
+      summary: Query list of mappings
+      tags:
+        - Mapping
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  block_height:
+                    type: string
+                  result:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MappingInfo"
+        500:
+          description: Internal Server Error
+  /mapping/{issue-symbol}:
+    parameters:
+      - in: path
+        name: issue-symbol
+        description: The issue symbol of the mapping info to query.
+        required: true
+        schema:
+          type: string
+          example: cbtc
+    get:
+      summary: Query mapping info specified by an issue symbol.
+      tags:
+        - Mapping
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  block_height:
+                    type: string
+                  result:
+                    $ref: "#/components/schemas/MappingInfo"
+        400:
+          description: Invalid token denomination
+        500:
+          description: Internal Server Error
+  /keygen/wait_assign:
+    get:
+      summary: Query all wait assign keygen order ids.
+      tags:
+        - Keygen
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        500:
+          description: Internal Server Error
+  /hrc20/parameters:
+    get:
+      summary: Query the hrc20 module's parameters
+      tags:
+        - Hrc20
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  issue_token_fee:
+                    type: string
+        500:
+          description: Internal Server Error
+  /transfer/accounts/{address}/transfers:
+    parameters:
+      - in: path
+        name: address
+        description: Account address
+        required: true
+        schema:
+          type: string
+          example: HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa
+    post:
+      summary: Send coins to a address
+      tags:
+        - Transfer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                base_req:
+                  $ref: "#/components/schemas/BaseReq"
+                amount:
+                  type: string
+                  example: "0.0100000000"
+      responses:
+        200:
+          description: The transaction was succesfully generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StdTx"
+        400:
+          description: Invalid account address
+        500:
+          description: Internal Server Error
+  /transfer/balances/{address}:
+    parameters:
+      - in: path
+        name: address
+        description: Account address
+        required: true
+        schema:
+          type: string
+          example: HBCTxmVA5pjFxUgU2UEzWipuDw1K2XaEzuKa
+    get:
+      summary: Query account balance info
+      tags:
+        - Transfer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  coins:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Coin"
+        400:
+          description: Invalid account address
+        500:
+          description: Internal Server Error
+  /upgrade/current:
+    get:
+      summary: Query currently scheduled upgrade plan
+      tags:
+        - Upgrade
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  time:
+                    type: string
+                  height:
+                    type: number
+                  info:
+                    type: string
+        500:
+          description: Internal Server Error
+  /upgrade/applied/{name}:
+    parameters:
+      - in: path
+        name: name
+        description: Plan name
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Query height at which the given upgrade was executed
+      tags:
+        - Upgrade
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: number
+        400:
+          description: Invalid plan name
+        500:
+          description: Internal Server Error
+  /openswap/pair/{tokenA}/{tokenB}:
+    parameters:
+      - in: path
+        name: tokenA
+        description: Trading pair Token A
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tokenB
+        description: Trading pair Token B
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Query openswap trading pair by tokens
+      tags:
+        - Openswap
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token_a:
+                    type: string
+                    example: "btc"
+                  token_b:
+                    type: string
+                    example: "usdt"
+                  token_a_amount:
+                    type: string
+                    example: "100"
+                  token_b_amount:
+                    type: string
+                    example: "10000"
+                  total_liquidity:
+                    type: string
+                    example: "1000"
+
+        400:
+          description: Invalid token name
+        500:
+          description: Internal Server Error
+  /openswap/pairs:
+    get:
+      summary: Query openswap all trading pair
+      tags:
+        - Openswap
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    token_a:
+                      type: string
+                      example: "btc"
+                    token_b:
+                      type: string
+                      example: "usdt"
+                    token_a_amount:
+                      type: string
+                      example: "100"
+                    token_b_amount:
+                      type: string
+                      example: "10000"
+                    total_liquidity:
+                      type: string
+                      example: "1000"
+
+        500:
+          description: Internal Server Error
+  /openswap/liquidity/{addr}:
+    parameters:
+      - in: path
+        name: addr
+        description: Account address
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Query openswap liquidity by account address
+      tags:
+        - Openswap
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trading_pair:
+                      type: object
+                      properties:
+                        token_a:
+                          type: string
+                          example: "btc"
+                        token_b:
+                          type: string
+                          example: "usdt"
+                        token_a_amount:
+                          type: string
+                          example: "100"
+                        token_b_amount:
+                          type: string
+                          example: "10000"
+                        total_liquidity:
+                          type: string
+                          example: "1000"
+                    liquidity:
+                      type: "string"
+                      example: "100"
+                    liquidity_share:
+                      type: "string"
+                      example: "0.1"
+        400:
+          description: Invalid address
+        500:
+          description: Internal Server Error
+  /openswap/orderbook/{pair}:
+    parameters:
+      - in: path
+        name: pair
+        description: token pair
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: merge
+        description: whether to merge the orderbook
+        schema:
+          type: boolean
+          example: false
+    get:
+      summary: Query orderbook of a trading pair
+      tags:
+        - Openswap
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  buy:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/OpenswapOrder"
+                  sell:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/OpenswapOrder"
+        400:
+          description: Invalid trading pair
+        500:
+          description: Internal Server Error
+  /openswap/order/{orderID}:
+    parameters:
+      - in: path
+        name: orderID
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Query a limit-price order information
+      tags:
+        - Openswap
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpenswapOrder"
+        500:
+          description: Internal Server Error
+  /openswap/pending_orders/{pair}/{addr}:
+    parameters:
+      - in: path
+        name: pair
+        description: token pair
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: addr
+        description: address
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Query a pending orders of an address
+      tags:
+        - Openswap
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OpenswapOrder"
+        400:
+          description: Invalid trading pair
+        500:
+          description: Internal Server Error
+  /openswap/earnings/{addr}:
+    parameters:
+      - in: path
+        name: addr
+        description: address
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Query unclaimed earnings of an address
+      tags:
+        - Openswap
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    token_a:
+                      type: string
+                      example: btc
+                    token_b:
+                      type: string
+                      example: usdt
+                    amount:
+                      type: string
+                      example: 1000.121
+        400:
+          description: Invalid address
+        500:
+          description: Internal Server Error
+  /openswap/parameters:
+    get:
+      summary: Query parameters of openswap module
+      tags:
+        - Openswap
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  minimum_liquidity:
+                    type: string
+                  fee_rate:
+                    type: string
+                  repurchase_rate:
+                    type: string
+                  referer_transaction_bonus_rate:
+                    type: string
+                  referer_mining_bonus_rate:
+                    type: string
+                  mining_weights:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        token_a:
+                          type: string
+                        token_b:
+                          type: string
+                        weight:
+                          type: string
+                  mining_plans:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        start_height:
+                          type: string
+                        mining_per_block:
+                          type: string
         500:
           description: Internal Server Error
 components:
@@ -1600,15 +2196,27 @@ components:
       type: string
       description: bech32 encoded address
       example: hbcvaloper1we2ufxj2wpanrhzd2h7upw07hffudxfw472txx
-    Coin:
+    Asset:
       type: object
       properties:
+        address:
+          type: string
+          example: 0x6621892346A47d319e705b76a3EF9Bb226fBe8cA
         denom:
           type: string
-          example: stake
-        amount:
+          example: eth
+        enable_sendtx:
+          type: boolean
+          example: true
+        epoch:
           type: string
-          example: "50"
+          example: 1
+        gas_remained:
+          type: string
+          example: 0
+        nonce:
+          type: string
+          example: 0
     Hash:
       type: string
       example: EE5F3404034C524501629B56E0DDC38FAD651F04
@@ -1921,51 +2529,51 @@ components:
       type: object
       properties:
         FromCU:
-           type: string
+          type: string
         ToCU:
-           type: string
+          type: string
         OrderID:
-           type: string
-        Symobl:   
-           type: string
+          type: string
+        Symobl:
+          type: string
     CUDeposit:
       type: object
       properties:
         FromCU:
-           type: string
+          type: string
         ToCU:
-           type: string
+          type: string
         ToAddr:
-           type: string
-        Symobl:   
-           type: string
-        Amount: 
-           type: number
+          type: string
+        Symobl:
+          type: string
+        Amount:
+          type: number
         TxHash:
-           type: string
+          type: string
         Index:
-           type: number
-        Height: 
-           type: number
+          type: number
+        Height:
+          type: number
         OrderID:
-           type: string
-        Memo:  
-           type: string
+          type: string
+        Memo:
+          type: string
     CUWithdrawal:
       type: object
       properties:
         FromCU:
-           type: string
+          type: string
         ToAddr:
-           type: string
-        Symobl:   
-           type: string
-        Amount: 
-           type: number
+          type: string
+        Symobl:
+          type: string
+        Amount:
+          type: number
         GasFee:
-           type: number
+          type: number
         OrderID:
-           type: string
+          type: string
     Vote:
       type: object
       properties:
@@ -1985,6 +2593,12 @@ components:
           example: hbcvalconspub1zcjduepq6f9zhhlwne7gkx0yrpg3ff3xe4yl6eu977mjjexlf5jjspjq26zqmyekwd
         jailed:
           type: boolean
+        is_key_node:
+          type: boolean
+        min_self_delegation:
+          type: string
+        last_key_node_heartbeat_height:
+          type: string
         status:
           type: integer
         tokens:
@@ -2197,16 +2811,16 @@ components:
         sys_open_fee:
           type: string
           example: "1000000000000000000"
-        withdrawal_fee:
+        withdrawal_fee_rate:
           type: string
-          example: "0"
+          example: "2.0"
         max_op_cu_number:
           type: string
           example: "3"
-        systransfer_amount:
+        sys_transfer_num:
           type: string
           example: "0"
-        op_cu_systransfer_amount:
+        op_cu_sys_transfer_num:
           type: string
           example: "0"
         gas_limit:
@@ -2215,6 +2829,12 @@ components:
         gas_price:
           type: string
           example: "1"
+        confirmations:
+          type: string
+          example: "1"
+        is_nonce_based:
+          type: boolean
+          example: false
     Order:
       type: object
       oneOf:
@@ -2235,6 +2855,8 @@ components:
           type: string
         status:
           type: number
+        height:
+          type: number
         key_nodes:
           type: array
           items:
@@ -2249,6 +2871,10 @@ components:
             $ref: "#/components/schemas/Coin"
         multi_sign_address:
           type: string
+        pubkey:
+          type: string
+        epoch:
+          type: string
     OrderCollect:
       type: object
       properties:
@@ -2262,6 +2888,8 @@ components:
           type: string
         status:
           type: number
+        height:
+          type: number
         collect_from_cu:
           type: string
         collect_from_address:
@@ -2274,10 +2902,10 @@ components:
           type: string
         gas_limit:
           type: string
+        cost_fee:
+          type: string
         tx_hash:
           type: string
-        height:
-          type: number
         index:
           type: number
         memo:
@@ -2290,14 +2918,6 @@ components:
           type: string
         depositstatus:
           type: number
-        validnodes:
-          type: array
-          items:
-            type: string
-        invalidnodes:
-          type: array
-          items:
-            type: string
     OrderWithdrawal:
       type: object
       properties:
@@ -2311,6 +2931,8 @@ components:
           type: string
         status:
           type: number
+        height:
+          type: number
         amount:
           type: string
         gas_fee:
@@ -2319,14 +2941,20 @@ components:
           type: string
         withdraw_to_address:
           type: string
+        from_address:
+          type: string
         opcu_address:
           type: string
+        utxoin_num:
+          type: number
         tx_hash:
           type: string
         raw_data:
           type: string
         signed_tx:
           type: string
+        withdraw_status:
+          type: number
     OrderSysTransfer:
       type: object
       properties:
@@ -2340,6 +2968,8 @@ components:
           type: string
         status:
           type: number
+        height:
+          type: number
         amount:
           type: string
         cost_fee:
@@ -2347,6 +2977,8 @@ components:
         to_cu:
           type: string
         to_address:
+          type: string
+        from_address:
           type: string
         opcu_address:
           type: string
@@ -2356,3 +2988,70 @@ components:
           type: string
         signed_tx:
           type: string
+    MappingInfo:
+      type: object
+      properties:
+        issue_symbol:
+          type: string
+          description: issue symbol as mapping source
+          example: cbtc
+        target_symbol:
+          type: string
+          description: target symbol as mapping target
+          example: btc
+        total_supply:
+          type: string
+          description: total supply for both issue and target symbols
+          example: "2100000000000000"
+        issue_pool:
+          type: string
+          description: current amount locked in the issue pool
+          example: "2099999900000000"
+        enabled:
+          type: boolean
+          description: whether the mapping is enabled
+          example: true
+    OpenswapOrder:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: eba67e0b-e4d7-4584-af5a-4e9f58a484d9
+        from:
+          type: string
+          example: HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12
+        referer:
+          type: string
+          example: HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12
+        receiver:
+          type: string
+          example: HBCPWdYBMJRLt929pSfoJPTW7y5hao9CFN12
+        created_time:
+          type: string
+          example: 1602661457
+        expired_time:
+          type: string
+          example: -1
+        finished_time:
+          type: string
+          example: 1602661857
+        status:
+          type: string
+        side:
+          type: string
+        base_symbol:
+          type: string
+          example: btc
+        quote_symbol:
+          type: string
+          example: usdt
+        price:
+          type: string
+          example: 172.323
+        amount_int:
+          type: string
+          example: 1000
+        locked_fund:
+          type: string
+          example: 1000
+

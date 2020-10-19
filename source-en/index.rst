@@ -26,7 +26,7 @@ HBTC Chain文档
    guide/quick-start
    guide/swap
    guide/mapping
-   guide/token
+   guide/hrc20
    guide/openswap
    guide/node
 
